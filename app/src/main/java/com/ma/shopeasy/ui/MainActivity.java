@@ -45,7 +45,6 @@ public class MainActivity extends AppCompatActivity {
                 .findFragmentById(R.id.nav_host_fragment);
         NavController navController = navHostFragment.getNavController();
 
-        NavigationUI.setupWithNavController(binding.toolbar, navController);
         NavigationUI.setupWithNavController(binding.bottomNavigation, navController);
 
         navController.addOnDestinationChangedListener((controller, destination, arguments) -> {

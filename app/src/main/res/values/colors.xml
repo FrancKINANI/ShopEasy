@@ -1,10 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Primary Brand Colors -->
+    <color name="primary">#2563EB</color>
+    <color name="primary_light">#3B82F6</color>
+    <color name="primary_dark">#1E40AF</color>
+    <color name="accent">#F59E0B</color>
+    <color name="accent_light">#FBBF24</color>
+
+    <!-- Neutrals -->
+    <color name="black">#0F172A</color>
+    <color name="white">#FFFFFF</color>
+    <color name="gray_50">#F8FAFC</color>
+    <color name="gray_100">#F1F5F9</color>
+    <color name="gray_200">#E2E8F0</color>
+    <color name="gray_300">#CBD5E1</color>
+    <color name="gray_400">#94A3B8</color>
+    <color name="gray_500">#64748B</color>
+    <color name="gray_600">#475569</color>
+    <color name="gray_700">#334155</color>
+
+    <!-- Status Colors -->
+    <color name="success">#10B981</color>
+    <color name="success_light">#D1FAE5</color>
+    <color name="warning">#F59E0B</color>
+    <color name="warning_light">#FEF3C7</color>
+    <color name="error">#EF4444</color>
+    <color name="error_light">#FEE2E2</color>
+    <color name="info">#3B82F6</color>
+    <color name="info_light">#DBEAFE</color>
+
+    <!-- Legacy Colors -->
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#FF6200EE</color>
     <color name="purple_700">#FF3700B3</color>
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+
+    <color name="logo_blue">#1A5DAB</color>
+    <color name="logo_green">#388E3C</color>
+    <color name="logo_blue_light">#6C9AD8</color>
+    <color name="logo_green_light">#7CB342</color>
+
+    <!-- Overlay & Transparency -->
+    <color name="overlay_dark">#1A000000</color>
+    <color name="overlay_light">#0DFFFFFF</color>
 </resources>
