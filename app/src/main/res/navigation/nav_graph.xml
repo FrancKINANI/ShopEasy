@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools" android:id="@+id/nav_graph" app:startDestination="@id/loginFragment">
+
+    <fragment android:id="@+id/loginFragment" android:name="com.ma.shopeasy.ui.auth.LoginFragment" android:label="Login" tools:layout="@layout/fragment_login">
+        <action android:id="@+id/action_loginFragment_to_signupFragment" app:destination="@id/signupFragment" />
+        <action android:id="@+id/action_loginFragment_to_homeFragment" app:destination="@id/homeFragment" app:popUpTo="@id/nav_graph" app:popUpToInclusive="true" />
+    </fragment>
+
+    <fragment android:id="@+id/signupFragment" android:name="com.ma.shopeasy.ui.auth.SignupFragment" android:label="Signup" tools:layout="@layout/fragment_signup">
+        <action android:id="@+id/action_signupFragment_to_homeFragment" app:destination="@id/homeFragment" app:popUpTo="@id/nav_graph" app:popUpToInclusive="true" />
+    </fragment>
+
+    <fragment android:id="@+id/homeFragment" android:name="com.ma.shopeasy.ui.home.HomeFragment" android:label="ShopEasy" tools:layout="@layout/fragment_home">
+        <action android:id="@+id/action_homeFragment_to_productDetailFragment" app:destination="@id/productDetailFragment" />
+        <action android:id="@+id/action_homeFragment_to_cartFragment" app:destination="@id/cartFragment" />
+        <action android:id="@+id/action_homeFragment_to_ordersFragment" app:destination="@id/ordersFragment" />
+    </fragment>
+
+    <fragment android:id="@+id/productDetailFragment" android:name="com.ma.shopeasy.ui.products.ProductDetailFragment" android:label="Product Detail" tools:layout="@layout/fragment_product_detail">
+        <argument android:name="productId" app:argType="string" />
+    </fragment>
+
+    <fragment android:id="@+id/cartFragment" android:name="com.ma.shopeasy.ui.cart.CartFragment" android:label="Cart" tools:layout="@layout/fragment_cart" />
+
+    <fragment android:id="@+id/ordersFragment" android:name="com.ma.shopeasy.ui.orders.OrdersFragment" android:label="Orders" tools:layout="@layout/fragment_orders" />
+
+    <fragment android:id="@+id/profileFragment" android:name="com.ma.shopeasy.ui.auth.ProfileFragment" android:label="Profile" tools:layout="@layout/fragment_profile" />
+
+</navigation>

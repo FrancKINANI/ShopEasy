@@ -1,0 +1,109 @@
+package com.ma.shopeasy.data.repository;
+
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.ma.shopeasy.domain.model.CartItem;
+import com.ma.shopeasy.domain.model.User;
+import com.ma.shopeasy.utils.Resource;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
+@Singleton
+public class CartRepository {
+
+    private final FirebaseFirestore firestore;
+    private final FirebaseAuth auth;
+
+    @Inject
+    public CartRepository(FirebaseFirestore firestore, FirebaseAuth auth) {
+        this.firestore = firestore;
+        this.auth = auth;
+    }
+
+    public LiveData<Resource<List<CartItem>>> getCart() {
+        MutableLiveData<Resource<List<CartItem>>> result = new MutableLiveData<>();
+        String uid = auth.getUid();
+
+        if (uid == null) {
+            result.setValue(Resource.error("User not logged in"));
+            return result;
+        }
+
+        result.setValue(Resource.loading());
+        firestore.collection("users").document(uid)
+                .addSnapshotListener((value, error) -> {
+                    if (error != null) {
+                        result.setValue(Resource.error(error.getMessage()));
+                        return;
+                    }
+                    if (value != null && value.exists()) {
+                        User user = value.toObject(User.class);
+                        if (user != null && user.getCart() != null) {
+                            result.setValue(Resource.success(user.getCart()));
+                        } else {
+                            result.setValue(Resource.success(new ArrayList<>()));
+                        }
+                    } else {
+                        result.setValue(Resource.success(new ArrayList<>()));
+                    }
+                });
+
+        return result;
+    }
+
+    public void addToCart(CartItem item) {
+        String uid = auth.getUid();
+        if (uid == null)
+            return;
+
+        DocumentReference userRef = firestore.collection("users").document(uid);
+        firestore.runTransaction(transaction -> {
+            User user = transaction.get(userRef).toObject(User.class);
+            if (user == null) {
+                user = new User(uid, auth.getCurrentUser().getEmail(), "User");
+            }
+            List<CartItem> cart = user.getCart();
+            if (cart == null)
+                cart = new ArrayList<>();
+
+            boolean found = false;
+            for (CartItem ci : cart) {
+                if (ci.getProductId().equals(item.getProductId())) {
+                    ci.setQuantity(ci.getQuantity() + item.getQuantity());
+                    found = true;
+                    break;
+                }
+            }
+            if (!found)
+                cart.add(item);
+
+            user.setCart(cart);
+            transaction.set(userRef, user);
+            return null;
+        });
+    }
+
+    public void removeFromCart(String productId) {
+        String uid = auth.getUid();
+        if (uid == null)
+            return;
+
+        DocumentReference userRef = firestore.collection("users").document(uid);
+        userRef.get().addOnSuccessListener(documentSnapshot -> {
+            User user = documentSnapshot.toObject(User.class);
+            if (user != null && user.getCart() != null) {
+                List<CartItem> cart = user.getCart();
+                cart.removeIf(item -> item.getProductId().equals(productId));
+                userRef.update("cart", cart);
+            }
+        });
+    }
+}
