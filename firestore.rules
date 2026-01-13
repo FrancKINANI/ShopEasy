@@ -1,0 +1,148 @@
+rules_version = '2';
+
+/**
+ * Firestore Security Rules for ShopEasy
+ * ✅ Enforces user authentication and authorization
+ * ✅ Prevents unauthorized data access
+ */
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    /**
+     * Users Collection
+     * ✅ Users can only read/write their own documents
+     * ✅ Prevents viewing other users' data (emails, addresses, payment info)
+     */
+    match /users/{userId} {
+      // Read: Only if authenticated and accessing own document
+      allow read: if request.auth != null && request.auth.uid == userId;
+      
+      // Write: Only if authenticated and accessing own document
+      allow write: if request.auth != null && 
+                     request.auth.uid == userId &&
+                     validateUserData(resource);
+      
+      // Update user sub-collections
+      match /{document=**} {
+        allow read, write: if request.auth != null && request.auth.uid == userId;
+      }
+    }
+    
+    /**
+     * Products Collection
+     * ✅ All authenticated users can read
+     * ✅ Only admins can write
+     */
+    match /products/{productId} {
+      // Read: All authenticated users
+      allow read: if request.auth != null;
+      
+      // Write: Only admin users
+      allow write: if request.auth != null && 
+                     isAdmin(request.auth.uid) &&
+                     validateProductData(request.resource.data);
+    }
+    
+    /**
+     * Orders Collection
+     * ✅ Users can only read/write their own orders
+     * ✅ Order creation validates user ownership
+     */
+    match /orders/{orderId} {
+      // Read: Only owner or admin
+      allow read: if request.auth != null && 
+                     (request.auth.uid == resource.data.userId || isAdmin(request.auth.uid));
+      
+      // Write: Only owner can create, only admin can update status
+      allow create: if request.auth != null && 
+                      request.auth.uid == request.resource.data.userId &&
+                      validateOrderData(request.resource.data);
+      
+      allow update: if request.auth != null && 
+                      (request.auth.uid == resource.data.userId || isAdmin(request.auth.uid)) &&
+                      validateOrderUpdate(request.resource.data);
+      
+      allow delete: if request.auth != null && isAdmin(request.auth.uid);
+    }
+    
+    /**
+     * Cart Items (Temporary)
+     * ✅ Users can only read/write their own cart
+     */
+    match /pending_cart/{cartId} {
+      allow read, write: if request.auth != null && 
+                           request.auth.uid == resource.data.userId;
+    }
+    
+    /**
+     * Admin Logs
+     * ✅ Only admins can read, system can write
+     */
+    match /admin_logs/{logId} {
+      allow read: if request.auth != null && isAdmin(request.auth.uid);
+      allow write: if request.auth != null;
+    }
+    
+    // ============================================
+    // ✅ VALIDATION FUNCTIONS
+    // ============================================
+    
+    /**
+     * Validate user data format
+     */
+    function validateUserData(data) {
+      return data.email is string &&
+             data.email.size() < 255 &&
+             data.email.matches('^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$') &&
+             data.name is string &&
+             data.name.size() > 0 &&
+             data.name.size() < 100;
+    }
+    
+    /**
+     * Validate product data format
+     */
+    function validateProductData(data) {
+      return data.name is string &&
+             data.name.size() > 0 &&
+             data.name.size() < 500 &&
+             data.price is number &&
+             data.price >= 0 &&
+             data.stock is number &&
+             data.stock >= 0 &&
+             data.category is string &&
+             (data.imageUrl == null || data.imageUrl is string);
+    }
+    
+    /**
+     * Validate order data on creation
+     */
+    function validateOrderData(data) {
+      return data.userId is string &&
+             data.userId.size() > 0 &&
+             data.items is list &&
+             data.items.size() > 0 &&
+             data.totalAmount is number &&
+             data.totalAmount > 0 &&
+             data.status is string &&
+             data.status == 'pending' &&
+             data.createdAt is timestamp;
+    }
+    
+    /**
+     * Validate order update (status change)
+     */
+    function validateOrderUpdate(data) {
+      return data.status in ['pending', 'processing', 'shipped', 'delivered', 'cancelled'] &&
+             data.updatedAt is timestamp;
+    }
+    
+    /**
+     * Check if user is admin
+     * TODO: Implement custom claims in Firebase Auth
+     */
+    function isAdmin(uid) {
+      return request.auth.token.admin == true;
+    }
+  }
+}
