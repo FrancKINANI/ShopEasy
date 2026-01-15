@@ -36,7 +36,7 @@ public class LoginFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        viewModel = new ViewModelProvider(this).get(AuthViewModel.class);
+        viewModel = new ViewModelProvider(requireActivity()).get(AuthViewModel.class);
 
         // ✅ Check if already logged in
         if (viewModel.isUserLoggedIn()) {
@@ -137,10 +137,8 @@ public class LoginFragment extends Fragment {
         viewModel.getUserProfile(user.getUid()).observe(getViewLifecycleOwner(), resource -> {
             if (resource.status == com.ma.shopeasy.utils.Resource.Status.SUCCESS && resource.data != null) {
                 if (com.ma.shopeasy.domain.model.User.Role.ADMIN.equals(resource.data.getRole())) {
-                    viewModel.fetchUserProfile(user.getUid()); // ✅ Update global state
                     Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_adminDashboardFragment);
                 } else {
-                    viewModel.fetchUserProfile(user.getUid()); // ✅ Update global state
                     Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_homeFragment);
                 }
             } else if (resource.status == com.ma.shopeasy.utils.Resource.Status.ERROR) {

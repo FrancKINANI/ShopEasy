@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModel;
 import com.google.firebase.auth.FirebaseUser;
 import com.ma.shopeasy.data.repository.AuthRepository;
 import com.ma.shopeasy.utils.Resource;
+import androidx.lifecycle.Transformations;
 
 import javax.inject.Inject;
 
@@ -26,18 +27,32 @@ public class AuthViewModel extends ViewModel {
     private final AuthRepository repository;
     private final MutableLiveData<FirebaseUser> _user = new MutableLiveData<>();
     public final LiveData<FirebaseUser> user = _user;
-    private final MutableLiveData<com.ma.shopeasy.domain.model.User> _userProfile = new MutableLiveData<>();
-    public final LiveData<com.ma.shopeasy.domain.model.User> userProfile = _userProfile;
+
+    public final LiveData<com.ma.shopeasy.domain.model.User> userProfile;
 
     @Inject
     public AuthViewModel(AuthRepository repository) {
         this.repository = repository;
 
+        this.userProfile = Transformations.switchMap(_user, firebaseUser -> {
+            if (firebaseUser == null) {
+                MutableLiveData<com.ma.shopeasy.domain.model.User> nullResult = new MutableLiveData<>();
+                nullResult.setValue(null);
+                return nullResult;
+            }
+            MutableLiveData<com.ma.shopeasy.domain.model.User> result = new MutableLiveData<>();
+            repository.getUserData(firebaseUser.getUid()).observeForever(resource -> {
+                if (resource.status == Resource.Status.SUCCESS) {
+                    result.setValue(resource.data);
+                }
+            });
+            return result;
+        });
+
         // ✅ Null-safe initialization
         com.google.firebase.auth.FirebaseUser currentUser = repository.getCurrentUser();
         if (currentUser != null) {
             _user.setValue(currentUser);
-            fetchUserProfile(currentUser.getUid());
             Log.d(TAG, "User already authenticated: " + currentUser.getEmail());
         }
     }
@@ -47,7 +62,13 @@ public class AuthViewModel extends ViewModel {
      * ✅ Returns Resource<FirebaseUser> for proper state management
      */
     public LiveData<Resource<FirebaseUser>> login(String email, String password) {
-        return repository.login(email, password);
+        LiveData<Resource<FirebaseUser>> result = repository.login(email, password);
+        return Transformations.map(result, resource -> {
+            if (resource.status == Resource.Status.SUCCESS && resource.data != null) {
+                _user.setValue(resource.data);
+            }
+            return resource;
+        });
     }
 
     /**
@@ -55,7 +76,13 @@ public class AuthViewModel extends ViewModel {
      * ✅ Creates user profile in Firestore
      */
     public LiveData<Resource<FirebaseUser>> signup(String email, String password, String name) {
-        return repository.register(email, password, name);
+        LiveData<Resource<FirebaseUser>> result = repository.register(email, password, name);
+        return Transformations.map(result, resource -> {
+            if (resource.status == Resource.Status.SUCCESS && resource.data != null) {
+                _user.setValue(resource.data);
+            }
+            return resource;
+        });
     }
 
     /**
@@ -66,12 +93,8 @@ public class AuthViewModel extends ViewModel {
         return repository.resetPassword(email);
     }
 
-    public void fetchUserProfile(String uid) {
-        repository.getUserData(uid).observeForever(resource -> {
-            if (resource.status == Resource.Status.SUCCESS) {
-                _userProfile.setValue(resource.data);
-            }
-        });
+    public void refreshUser() {
+        _user.setValue(repository.getCurrentUser());
     }
 
     public LiveData<Resource<com.ma.shopeasy.domain.model.User>> getUserData() {
@@ -95,7 +118,6 @@ public class AuthViewModel extends ViewModel {
     public void logout() {
         repository.logout();
         _user.setValue(null);
-        _userProfile.setValue(null);
         Log.d(TAG, "User logged out");
     }
 
