@@ -58,8 +58,8 @@ public class OrdersAdapter extends ListAdapter<Order, OrdersAdapter.OrderViewHol
                     .setText("Order #" + (order.getOrderId() != null ? order.getOrderId().substring(0, 8) : "..."));
             binding.tvStatus.setText(order.getStatus().toUpperCase());
             binding.tvTotal.setText(String.format(Locale.getDefault(), "Total: $%.2f", order.getTotal()));
-            if (order.getTimestamp() != null) {
-                binding.tvDate.setText("Date: " + dateFormat.format(order.getTimestamp().toDate()));
+            if (order.getOrderDate() != null) {
+                binding.tvDate.setText("Date: " + dateFormat.format(order.getOrderDate()));
             }
         }
     }

@@ -10,7 +10,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 
+import com.ma.shopeasy.R;
 import com.ma.shopeasy.data.repository.ProductRepository;
 import com.ma.shopeasy.databinding.FragmentCartBinding;
 import com.ma.shopeasy.domain.model.CartItem;
@@ -90,7 +92,9 @@ public class CartFragment extends Fragment {
                         .observe(getViewLifecycleOwner(), resource -> {
                             if (resource.status == com.ma.shopeasy.utils.Resource.Status.SUCCESS) {
                                 Toast.makeText(getContext(), "Order placed successfully!", Toast.LENGTH_SHORT).show();
-                                // Clear cart? Usually done on server or via repository
+                                Navigation.findNavController(view).navigate(R.id.action_cartFragment_to_ordersFragment);
+                            } else if (resource.status == com.ma.shopeasy.utils.Resource.Status.ERROR) {
+                                Toast.makeText(getContext(), resource.message, Toast.LENGTH_SHORT).show();
                             }
                         });
             } else {

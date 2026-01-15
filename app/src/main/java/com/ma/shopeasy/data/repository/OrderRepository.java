@@ -26,9 +26,22 @@ public class OrderRepository {
         this.auth = auth;
     }
 
+    public LiveData<Resource<Void>> placeOrder(Order order) {
+        MutableLiveData<Resource<Void>> result = new MutableLiveData<>();
+        result.setValue(Resource.loading());
+
+        firestore.collection("orders").document(order.getOrderId())
+                .set(order)
+                .addOnSuccessListener(aVoid -> result.setValue(Resource.success(null)))
+                .addOnFailureListener(e -> result.setValue(Resource.error(e.getMessage())));
+
+        return result;
+    }
+
     public LiveData<Resource<List<Order>>> getOrders() {
         MutableLiveData<Resource<List<Order>>> result = new MutableLiveData<>();
         String uid = auth.getUid();
+
         if (uid == null) {
             result.setValue(Resource.error("User not logged in"));
             return result;
@@ -37,7 +50,7 @@ public class OrderRepository {
         result.setValue(Resource.loading());
         firestore.collection("orders")
                 .whereEqualTo("userId", uid)
-                .orderBy("timestamp", Query.Direction.DESCENDING)
+                .orderBy("orderDate", Query.Direction.DESCENDING)
                 .addSnapshotListener((value, error) -> {
                     if (error != null) {
                         result.setValue(Resource.error(error.getMessage()));
@@ -47,7 +60,6 @@ public class OrderRepository {
                         result.setValue(Resource.success(value.toObjects(Order.class)));
                     }
                 });
-
         return result;
     }
 
@@ -55,7 +67,7 @@ public class OrderRepository {
         MutableLiveData<Resource<List<Order>>> result = new MutableLiveData<>();
         result.setValue(Resource.loading());
         firestore.collection("orders")
-                .orderBy("timestamp", Query.Direction.DESCENDING)
+                .orderBy("orderDate", Query.Direction.DESCENDING)
                 .addSnapshotListener((value, error) -> {
                     if (error != null) {
                         result.setValue(Resource.error(error.getMessage()));
@@ -65,21 +77,6 @@ public class OrderRepository {
                         result.setValue(Resource.success(value.toObjects(Order.class)));
                     }
                 });
-        return result;
-    }
-
-    public LiveData<Resource<String>> placeOrder(Order order) {
-        MutableLiveData<Resource<String>> result = new MutableLiveData<>();
-        result.setValue(Resource.loading());
-
-        firestore.collection("orders").add(order)
-                .addOnSuccessListener(documentReference -> {
-                    String id = documentReference.getId();
-                    documentReference.update("orderId", id);
-                    result.setValue(Resource.success(id));
-                })
-                .addOnFailureListener(e -> result.setValue(Resource.error(e.getMessage())));
-
         return result;
     }
 }

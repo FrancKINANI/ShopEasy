@@ -7,6 +7,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.ma.shopeasy.domain.model.CartItem;
+import com.ma.shopeasy.domain.model.Order;
 import com.ma.shopeasy.domain.model.User;
 import com.ma.shopeasy.utils.Resource;
 
@@ -143,5 +144,38 @@ public class CartRepository {
                 userRef.update("cart", cart);
             }
         });
+    }
+
+    public void clearCart() {
+        String uid = auth.getUid();
+        if (uid == null) {
+            return;
+        }
+        DocumentReference userRef = firestore.collection("users").document(uid);
+        userRef.update("cart", new ArrayList<>());
+    }
+
+    public LiveData<Resource<Void>> placeOrder(List<CartItem> items, double total) {
+        MutableLiveData<Resource<Void>> result = new MutableLiveData<>();
+        String uid = auth.getUid();
+
+        if (uid == null) {
+            result.setValue(Resource.error("User not logged in"));
+            return result;
+        }
+
+        result.setValue(Resource.loading());
+
+        DocumentReference orderRef = firestore.collection("orders").document();
+        Order order = new Order(orderRef.getId(), uid, items, total);
+
+        firestore.collection("orders").document(order.getOrderId()).set(order)
+                .addOnSuccessListener(aVoid -> {
+                    clearCart();
+                    result.setValue(Resource.success(null));
+                })
+                .addOnFailureListener(e -> result.setValue(Resource.error(e.getMessage())));
+
+        return result;
     }
 }

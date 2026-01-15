@@ -26,7 +26,9 @@
         <argument android:name="productId" app:argType="string" />
     </fragment>
 
-    <fragment android:id="@+id/cartFragment" android:name="com.ma.shopeasy.ui.cart.CartFragment" android:label="Cart" tools:layout="@layout/fragment_cart" />
+    <fragment android:id="@+id/cartFragment" android:name="com.ma.shopeasy.ui.cart.CartFragment" android:label="Cart" tools:layout="@layout/fragment_cart">
+        <action android:id="@+id/action_cartFragment_to_ordersFragment" app:destination="@id/ordersFragment" />
+    </fragment>
 
     <fragment android:id="@+id/ordersFragment" android:name="com.ma.shopeasy.ui.orders.OrdersFragment" android:label="Orders" tools:layout="@layout/fragment_orders" />
 

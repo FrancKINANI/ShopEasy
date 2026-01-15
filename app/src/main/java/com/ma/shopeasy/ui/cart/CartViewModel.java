@@ -2,6 +2,7 @@ package com.ma.shopeasy.ui.cart;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.MediatorLiveData;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.ma.shopeasy.data.repository.CartRepository;
@@ -13,6 +14,7 @@ import com.ma.shopeasy.domain.model.Product;
 import com.ma.shopeasy.utils.Resource;
 
 import java.util.List;
+import java.util.UUID;
 
 import javax.inject.Inject;
 
@@ -51,9 +53,8 @@ public class CartViewModel extends ViewModel {
         cartRepository.updateQuantity(productId, quantity);
     }
 
-    public LiveData<Resource<String>> checkout(List<CartItem> items, double total) {
-        Order order = new Order(null, auth.getUid(), items, total, "pending");
-        return orderRepository.placeOrder(order);
+    public LiveData<Resource<Void>> checkout(List<CartItem> items, double total) {
+        return cartRepository.placeOrder(items, total);
     }
 
     public double calculateTotal(List<CartItem> items) {
