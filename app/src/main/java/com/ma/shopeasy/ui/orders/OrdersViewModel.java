@@ -26,4 +26,8 @@ public class OrdersViewModel extends ViewModel {
     public LiveData<Resource<List<Order>>> getOrders() {
         return repository.getOrders();
     }
+
+    public LiveData<Resource<List<Order>>> getAllOrders() {
+        return repository.getAllOrders();
+    }
 }

@@ -47,6 +47,10 @@ public class CartViewModel extends ViewModel {
         cartRepository.removeFromCart(productId);
     }
 
+    public void updateQuantity(String productId, int quantity) {
+        cartRepository.updateQuantity(productId, quantity);
+    }
+
     public LiveData<Resource<String>> checkout(List<CartItem> items, double total) {
         Order order = new Order(null, auth.getUid(), items, total, "pending");
         return orderRepository.placeOrder(order);

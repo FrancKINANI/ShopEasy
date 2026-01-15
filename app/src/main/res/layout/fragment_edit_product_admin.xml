@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent" android:layout_height="match_parent" android:background="@color/gray_50">
+
+    <com.google.android.material.appbar.AppBarLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:background="#FFC107" android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout android:layout_width="match_parent" android:layout_height="wrap_content" app:layout_scrollFlags="scroll|exitUntilCollapsed" app:contentScrim="@color/primary" app:titleEnabled="false">
+
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:paddingTop="?attr/actionBarSize" android:paddingBottom="24dp" android:paddingHorizontal="16dp" android:background="@color/primary" android:gravity="center">
+
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Éditer Produit" android:textSize="20sp" android:fontFamily="@font/poppins_bold" android:textColor="@color/white" />
+            </LinearLayout>
+
+            <androidx.appcompat.widget.Toolbar android:id="@+id/toolbar" android:layout_width="match_parent" android:layout_height="?attr/actionBarSize" app:layout_collapseMode="pin"/>
+
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView android:layout_width="match_parent" android:layout_height="match_parent" android:background="@drawable/shape_bottom_sheet_bg" android:layout_marginTop="-20dp" app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="24dp">
+
+            <!-- Basic Info Card -->
+            <com.google.android.material.card.MaterialCardView android:layout_width="match_parent" android:layout_height="wrap_content" app:cardCornerRadius="16dp" app:cardElevation="2dp" app:cardBackgroundColor="@color/white" android:layout_marginBottom="24dp">
+
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="24dp">
+
+                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Informations de Base" android:fontFamily="@font/poppins_bold" android:textSize="16sp" android:textColor="@color/black" android:layout_marginBottom="16dp"/>
+
+                    <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Nom du produit" app:boxBackgroundColor="@color/gray_50" app:boxCornerRadiusTopStart="12dp" app:boxCornerRadiusTopEnd="12dp" app:boxCornerRadiusBottomStart="12dp" app:boxCornerRadiusBottomEnd="12dp" app:boxStrokeWidth="0dp" android:layout_marginBottom="16dp">
+                        <com.google.android.material.textfield.TextInputEditText android:id="@+id/etName" android:layout_width="match_parent" android:layout_height="wrap_content" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+
+                        <com.google.android.material.textfield.TextInputLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:hint="Prix (€)" app:boxBackgroundColor="@color/gray_50" app:boxCornerRadiusTopStart="12dp" app:boxCornerRadiusTopEnd="12dp" app:boxCornerRadiusBottomStart="12dp" app:boxCornerRadiusBottomEnd="12dp" app:boxStrokeWidth="0dp" android:layout_marginEnd="8dp">
+                            <com.google.android.material.textfield.TextInputEditText android:id="@+id/etPrice" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="numberDecimal" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:hint="Stock (Qté)" app:boxBackgroundColor="@color/gray_50" app:boxCornerRadiusTopStart="12dp" app:boxCornerRadiusTopEnd="12dp" app:boxCornerRadiusBottomStart="12dp" app:boxCornerRadiusBottomEnd="12dp" app:boxStrokeWidth="0dp" android:layout_marginStart="8dp">
+                            <com.google.android.material.textfield.TextInputEditText android:id="@+id/etStock" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="number" />
+                        </com.google.android.material.textfield.TextInputLayout>
+                    </LinearLayout>
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Details Card -->
+            <com.google.android.material.card.MaterialCardView android:layout_width="match_parent" android:layout_height="wrap_content" app:cardCornerRadius="16dp" app:cardElevation="2dp" app:cardBackgroundColor="@color/white" android:layout_marginBottom="32dp">
+
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="24dp">
+
+                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Détails" android:fontFamily="@font/poppins_bold" android:textSize="16sp" android:textColor="@color/black" android:layout_marginBottom="16dp"/>
+
+                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Statut du Stock" android:textSize="12sp" android:fontFamily="@font/inter_regular" android:textColor="@color/gray_600" android:layout_marginBottom="4dp"/>
+
+                    <Spinner android:id="@+id/spinnerStockStatus" android:layout_width="match_parent" android:layout_height="48dp" android:background="@drawable/shape_pill" android:backgroundTint="@color/gray_50" android:entries="@array/stock_status_options" android:layout_marginBottom="16dp"/>
+
+                    <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Fournisseur (Interne)" app:boxBackgroundColor="@color/gray_50" app:boxCornerRadiusTopStart="12dp" app:boxCornerRadiusTopEnd="12dp" app:boxCornerRadiusBottomStart="12dp" app:boxCornerRadiusBottomEnd="12dp" app:boxStrokeWidth="0dp" android:layout_marginBottom="16dp">
+                        <com.google.android.material.textfield.TextInputEditText android:id="@+id/etSupplier" android:layout_width="match_parent" android:layout_height="wrap_content" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Description" app:boxBackgroundColor="@color/gray_50" app:boxCornerRadiusTopStart="12dp" app:boxCornerRadiusTopEnd="12dp" app:boxCornerRadiusBottomStart="12dp" app:boxCornerRadiusBottomEnd="12dp" app:boxStrokeWidth="0dp">
+                        <com.google.android.material.textfield.TextInputEditText android:id="@+id/etDescription" android:layout_width="match_parent" android:layout_height="wrap_content" android:minLines="4" android:gravity="top"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.button.MaterialButton android:id="@+id/btnSave" android:layout_width="match_parent" android:layout_height="56dp" android:text="Enregistrer" android:fontFamily="@font/poppins_bold" android:textSize="16sp" app:cornerRadius="12dp" android:textColor="@color/white" android:background="@drawable/gradient_cta" app:backgroundTint="@null"/>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

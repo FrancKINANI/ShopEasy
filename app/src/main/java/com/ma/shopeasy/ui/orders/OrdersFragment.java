@@ -36,18 +36,24 @@ public class OrdersFragment extends Fragment {
         adapter = new OrdersAdapter();
         binding.rvOrders.setAdapter(adapter);
 
-        viewModel.getOrders().observe(getViewLifecycleOwner(), resource -> {
+        boolean isAdmin = getArguments() != null && getArguments().getBoolean("isAdmin", false);
+
+        if (isAdmin) {
+            binding.tvTitle.setText("Toutes les Commandes");
+        }
+
+        (isAdmin ? viewModel.getAllOrders() : viewModel.getOrders()).observe(getViewLifecycleOwner(), resource -> {
             switch (resource.status) {
                 case LOADING:
                     binding.progressBar.setVisibility(View.VISIBLE);
-                    binding.tvEmpty.setVisibility(View.GONE);
+                    binding.emptyState.setVisibility(View.GONE);
                     break;
                 case SUCCESS:
                     binding.progressBar.setVisibility(View.GONE);
                     if (resource.data == null || resource.data.isEmpty()) {
-                        binding.tvEmpty.setVisibility(View.VISIBLE);
+                        binding.emptyState.setVisibility(View.VISIBLE);
                     } else {
-                        binding.tvEmpty.setVisibility(View.GONE);
+                        binding.emptyState.setVisibility(View.GONE);
                         adapter.submitList(resource.data);
                     }
                     break;

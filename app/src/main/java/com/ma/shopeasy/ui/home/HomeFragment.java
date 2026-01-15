@@ -94,11 +94,20 @@ public class HomeFragment extends Fragment {
     }
 
     private void setupRecyclerView() {
-        adapter = new ProductAdapter(product -> {
-            Bundle bundle = new Bundle();
-            bundle.putString("productId", product.getId());
-            Navigation.findNavController(binding.getRoot()).navigate(R.id.action_homeFragment_to_productDetailFragment,
-                    bundle);
+        adapter = new ProductAdapter(new ProductAdapter.OnProductClickListener() {
+            @Override
+            public void onProductClick(com.ma.shopeasy.domain.model.Product product) {
+                Bundle bundle = new Bundle();
+                bundle.putString("productId", product.getId());
+                Navigation.findNavController(binding.getRoot())
+                        .navigate(R.id.action_homeFragment_to_productDetailFragment, bundle);
+            }
+
+            @Override
+            public void onAddToCartClick(com.ma.shopeasy.domain.model.Product product) {
+                viewModel.addToCart(product);
+                Toast.makeText(getContext(), "Added to cart", Toast.LENGTH_SHORT).show();
+            }
         });
         binding.rvProducts.setLayoutManager(new GridLayoutManager(getContext(), 2));
         binding.rvProducts.setAdapter(adapter);

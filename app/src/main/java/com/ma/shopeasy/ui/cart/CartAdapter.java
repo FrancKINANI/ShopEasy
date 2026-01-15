@@ -21,6 +21,10 @@ public class CartAdapter extends ListAdapter<CartItem, CartAdapter.CartViewHolde
 
     public interface OnCartItemClickListener {
         void onRemoveClick(String productId);
+
+        void onIncreaseClick(String productId, int currentQuantity);
+
+        void onDecreaseClick(String productId, int currentQuantity);
     }
 
     public CartAdapter(ProductRepository productRepository, OnCartItemClickListener listener) {
@@ -62,17 +66,26 @@ public class CartAdapter extends ListAdapter<CartItem, CartAdapter.CartViewHolde
         }
 
         public void bind(CartItem item, ProductRepository repository, OnCartItemClickListener listener) {
-            // Ideally should show product name/image
-            // For now, we show basic info, and could fetch name from repository
+            // Fetch product details for name and image
             repository.getProductById(item.getProductId()).observeForever(product -> {
                 if (product != null) {
                     binding.tvName.setText(product.getName());
-                    // Glide load image...
+                    // In a real app, use Glide here to load image
+                    /*
+                     * Glide.with(binding.ivProduct.getContext())
+                     * .load(product.getImageUrl())
+                     * .placeholder(android.R.drawable.ic_menu_gallery)
+                     * .into(binding.ivProduct);
+                     */
                 }
             });
-            binding.tvPriceQuantity
-                    .setText(String.format(Locale.getDefault(), "$%.2f x %d", item.getPrice(), item.getQuantity()));
+
+            binding.tvPrice.setText(String.format(Locale.getDefault(), "$%.2f", item.getPrice()));
+            binding.tvQuantity.setText(String.valueOf(item.getQuantity()));
+
             binding.btnRemove.setOnClickListener(v -> listener.onRemoveClick(item.getProductId()));
+            binding.btnPlus.setOnClickListener(v -> listener.onIncreaseClick(item.getProductId(), item.getQuantity()));
+            binding.btnMinus.setOnClickListener(v -> listener.onDecreaseClick(item.getProductId(), item.getQuantity()));
         }
     }
 }

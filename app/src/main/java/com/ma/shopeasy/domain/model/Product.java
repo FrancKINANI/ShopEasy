@@ -2,6 +2,7 @@ package com.ma.shopeasy.domain.model;
 
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import java.io.Serializable;
@@ -13,11 +14,11 @@ import java.util.Objects;
  */
 @Entity(tableName = "products")
 public class Product implements Serializable {
-    
+
     @PrimaryKey
     @NonNull
     private String id;
-    
+
     private String name;
     private String description;
     private double price;
@@ -25,13 +26,18 @@ public class Product implements Serializable {
     private String imageUrl;
     private float rating;
     private int stock;
+    private String supplierInfo;
+    private String stockStatus; // "IN_STOCK", "OUT_OF_STOCK", "DELAYED"
+    private java.util.List<FAQItem> faqList;
 
     public Product() {
         // Required for Firebase/Room
     }
 
-    public Product(@NonNull String id, String name, String description, double price, 
-                   String category, String imageUrl, float rating, int stock) {
+    @Ignore
+    public Product(@NonNull String id, String name, String description, double price,
+            String category, String imageUrl, float rating, int stock,
+            String supplierInfo, String stockStatus) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -40,6 +46,9 @@ public class Product implements Serializable {
         this.imageUrl = imageUrl;
         this.rating = rating;
         this.stock = stock;
+        this.supplierInfo = supplierInfo;
+        this.stockStatus = stockStatus;
+        this.faqList = new java.util.ArrayList<>();
     }
 
     // ✅ GETTERS & SETTERS WITH VALIDATION
@@ -143,12 +152,40 @@ public class Product implements Serializable {
         this.stock = stock;
     }
 
+    public String getSupplierInfo() {
+        return supplierInfo;
+    }
+
+    public void setSupplierInfo(String supplierInfo) {
+        this.supplierInfo = supplierInfo;
+    }
+
+    public String getStockStatus() {
+        return stockStatus;
+    }
+
+    public void setStockStatus(String stockStatus) {
+        this.stockStatus = stockStatus;
+    }
+
+    public java.util.List<FAQItem> getFaqList() {
+        if (faqList == null)
+            faqList = new java.util.ArrayList<>();
+        return faqList;
+    }
+
+    public void setFaqList(java.util.List<FAQItem> faqList) {
+        this.faqList = faqList;
+    }
+
     // ✅ EQUALS & HASHCODE
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
         Product product = (Product) o;
         return Double.compare(product.price, price) == 0 &&
                 Float.compare(product.rating, rating) == 0 &&
@@ -157,12 +194,16 @@ public class Product implements Serializable {
                 Objects.equals(name, product.name) &&
                 Objects.equals(description, product.description) &&
                 Objects.equals(category, product.category) &&
-                Objects.equals(imageUrl, product.imageUrl);
+                Objects.equals(imageUrl, product.imageUrl) &&
+                Objects.equals(supplierInfo, product.supplierInfo) &&
+                Objects.equals(stockStatus, product.stockStatus) &&
+                Objects.equals(faqList, product.faqList);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, description, price, category, imageUrl, rating, stock);
+        return Objects.hash(id, name, description, price, category, imageUrl, rating, stock, supplierInfo, stockStatus,
+                faqList);
     }
 
     @Override
@@ -172,7 +213,8 @@ public class Product implements Serializable {
                 ", name='" + name + '\'' +
                 ", price=" + price +
                 ", stock=" + stock +
-                ", rating=" + rating +
+                ", status='" + stockStatus + '\'' +
+                ", supplier='" + supplierInfo + '\'' +
                 '}';
     }
 }

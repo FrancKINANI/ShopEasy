@@ -1,125 +1,107 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/gray_50">
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent" android:layout_height="match_parent" android:background="@color/gray_50">
 
-    <!-- Header Section with Gradient -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@drawable/gradient_blue_accent"
-        android:padding="24dp">
+    <com.google.android.material.appbar.AppBarLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:background="@color/gray_50" app:elevation="0dp">
 
-        <!-- Greeting Text -->
-        <TextView
-            android:id="@+id/tvGreeting"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Welcome, Shopper!"
-            android:textSize="24sp"
-            android:fontFamily="@font/poppins_bold"
-            android:textColor="@color/white"
-            android:layout_marginBottom="12dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Discover amazing products at great prices"
-            android:textSize="13sp"
-            android:fontFamily="@font/inter_regular"
-            android:textColor="@color/gray_100"
-            android:layout_marginBottom="20dp" />
-
-        <!-- Search Bar -->
-        <com.google.android.material.card.MaterialCardView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="56dp"
-            app:cardCornerRadius="12dp"
-            app:cardElevation="2dp"
-            android:layout_marginBottom="0dp">
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingHorizontal="24dp"
+            android:paddingTop="24dp"
+            android:paddingBottom="12dp"
+            app:layout_scrollFlags="scroll|enterAlways|snap">
 
+            <!-- Top Header: Greeting & Profile -->
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:layout_marginBottom="24dp">
+
+                <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical">
+
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Bonjour," android:textSize="14sp" android:fontFamily="@font/inter_regular" android:textColor="@color/gray_500" />
+
+                    <TextView android:id="@+id/tvUserName" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Bienvenue !" android:textSize="20sp" android:fontFamily="@font/poppins_bold" android:textColor="@color/primary" />
+                </LinearLayout>
+
+                <ImageView android:id="@+id/ivProfile" android:layout_width="48dp" android:layout_height="48dp" android:src="@drawable/logo" android:padding="8dp" android:background="@drawable/shape_circle_white" android:elevation="4dp" />
+            </LinearLayout>
+
+            <!-- Search Bar (Pill Shape) -->
             <androidx.appcompat.widget.SearchView
                 android:id="@+id/searchView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginBottom="24dp"
+                android:background="@drawable/shape_pill"
+                android:elevation="2dp"
                 app:iconifiedByDefault="false"
-                app:queryHint="Search products..."
-                android:padding="8dp" />
-        </com.google.android.material.card.MaterialCardView>
+                app:queryHint="Rechercher..." />
 
-    </LinearLayout>
+            <!-- Promo Banner -->
+            <com.google.android.material.card.MaterialCardView android:layout_width="match_parent" android:layout_height="140dp" app:cardCornerRadius="20dp" app:cardElevation="4dp" android:layout_marginBottom="24dp">
 
-    <!-- Category Filter Chips -->
-    <HorizontalScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scrollbars="none"
-        android:paddingVertical="16dp"
-        android:paddingHorizontal="16dp"
-        android:paddingStart="16dp">
+                <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:background="@drawable/gradient_blue_accent" android:orientation="horizontal" android:gravity="center_vertical" android:padding="24dp">
 
-        <com.google.android.material.chip.ChipGroup
-            android:id="@+id/chipGroup"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:singleSelection="true">
+                    <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical">
 
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chipAll"
-                style="@style/Widget.Material3.Chip.Filter"
-                android:layout_width="wrap_content"
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Offre Spéciale" android:textColor="@color/white" android:fontFamily="@font/inter_regular" android:textSize="12sp" android:layout_marginBottom="4dp"/>
+
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="-20% sur tout" android:textColor="@color/white" android:fontFamily="@font/poppins_bold" android:textSize="22sp" android:layout_marginBottom="12dp"/>
+
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Acheter" android:background="@drawable/shape_pill" android:paddingHorizontal="16dp" android:paddingVertical="6dp" android:textColor="@color/primary" android:fontFamily="@font/poppins_bold" android:textSize="12sp"/>
+                    </LinearLayout>
+
+                    <ImageView android:layout_width="80dp" android:layout_height="80dp" android:src="@android:drawable/ic_menu_gallery" app:tint="@color/white" android:alpha="0.8"/>
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Categories Chips -->
+            <HorizontalScrollView
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="All Products"
-                android:checked="true"
-                android:layout_marginEnd="8dp" />
+                android:scrollbars="none"
+                android:layout_marginBottom="16dp">
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/chipGroup"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:singleLine="true"
+                    app:singleSelection="true">
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chipPriceLow"
+                        style="@style/Widget.MaterialComponents.Chip.Choice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Prix croissant"/>
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chipPriceHigh"
+                        style="@style/Widget.MaterialComponents.Chip.Choice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Prix décroissant"/>
+                </com.google.android.material.chip.ChipGroup>
+            </HorizontalScrollView>
 
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chipPriceLow"
-                style="@style/Widget.Material3.Chip.Filter"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Price: Low to High"
-                android:layout_marginEnd="8dp" />
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:layout_marginBottom="12dp">
 
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chipPriceHigh"
-                style="@style/Widget.Material3.Chip.Filter"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Price: High to Low"
-                android:layout_marginEnd="8dp" />
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Produits Populaires" android:fontFamily="@font/poppins_bold" android:textSize="18sp" android:textColor="@color/black"/>
 
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chipTrending"
-                style="@style/Widget.Material3.Chip.Filter"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Trending"
-                android:layout_marginEnd="8dp" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Voir tout" android:fontFamily="@font/inter_regular" android:textSize="13sp" android:textColor="@color/primary"/>
+            </LinearLayout>
 
-        </com.google.android.material.chip.ChipGroup>
-    </HorizontalScrollView>
+        </LinearLayout>
+    </com.google.android.material.appbar.AppBarLayout>
 
-    <!-- Products Grid with Swipe Refresh -->
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefresh"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvProducts"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="8dp"
-            android:clipToPadding="false"
-            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            app:spanCount="2" />
-
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        <androidx.recyclerview.widget.RecyclerView android:id="@+id/rvProducts" android:layout_width="match_parent" android:layout_height="match_parent" android:paddingHorizontal="16dp" android:clipToPadding="false" app:layoutManager="androidx.recyclerview.widget.GridLayoutManager" app:spanCount="2" tools:listitem="@layout/item_product" />
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-</LinearLayout>
+    <ProgressBar android:id="@+id/progressBar" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center" android:visibility="gone" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

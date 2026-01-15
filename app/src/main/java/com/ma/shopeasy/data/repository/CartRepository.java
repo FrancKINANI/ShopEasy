@@ -61,14 +61,25 @@ public class CartRepository {
 
     public void addToCart(CartItem item) {
         String uid = auth.getUid();
-        if (uid == null)
+        if (uid == null) {
             return;
+        }
+
+        // ✅ Validation
+        if (!isValidProductId(item.getProductId())) {
+            return;
+        }
 
         DocumentReference userRef = firestore.collection("users").document(uid);
         firestore.runTransaction(transaction -> {
             User user = transaction.get(userRef).toObject(User.class);
             if (user == null) {
-                user = new User(uid, auth.getCurrentUser().getEmail(), "User");
+                String name = auth.getCurrentUser().getDisplayName();
+                String email = auth.getCurrentUser().getEmail();
+                if (name == null || name.trim().isEmpty()) {
+                    name = email; // Fallback to email if name is not available
+                }
+                user = new User(uid, name, email, "", User.Role.USER);
             }
             List<CartItem> cart = user.getCart();
             if (cart == null)
@@ -88,7 +99,13 @@ public class CartRepository {
             user.setCart(cart);
             transaction.set(userRef, user);
             return null;
+        }).addOnFailureListener(e -> {
+            // Log failure
         });
+    }
+
+    private boolean isValidProductId(String productId) {
+        return productId != null && productId.matches("^[a-zA-Z0-9_-]+$");
     }
 
     public void removeFromCart(String productId) {
@@ -102,6 +119,27 @@ public class CartRepository {
             if (user != null && user.getCart() != null) {
                 List<CartItem> cart = user.getCart();
                 cart.removeIf(item -> item.getProductId().equals(productId));
+                userRef.update("cart", cart);
+            }
+        });
+    }
+
+    public void updateQuantity(String productId, int quantity) {
+        String uid = auth.getUid();
+        if (uid == null)
+            return;
+
+        DocumentReference userRef = firestore.collection("users").document(uid);
+        userRef.get().addOnSuccessListener(documentSnapshot -> {
+            User user = documentSnapshot.toObject(User.class);
+            if (user != null && user.getCart() != null) {
+                List<CartItem> cart = user.getCart();
+                for (CartItem item : cart) {
+                    if (item.getProductId().equals(productId)) {
+                        item.setQuantity(quantity);
+                        break;
+                    }
+                }
                 userRef.update("cart", cart);
             }
         });

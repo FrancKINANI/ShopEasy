@@ -20,6 +20,8 @@ public class ProductAdapter extends ListAdapter<Product, ProductAdapter.ProductV
 
     public interface OnProductClickListener {
         void onProductClick(Product product);
+
+        void onAddToCartClick(Product product);
     }
 
     public ProductAdapter(OnProductClickListener listener) {
@@ -71,6 +73,7 @@ public class ProductAdapter extends ListAdapter<Product, ProductAdapter.ProductV
                     .into(binding.ivProduct);
 
             binding.getRoot().setOnClickListener(v -> listener.onProductClick(product));
+            binding.btnAddToCart.setOnClickListener(v -> listener.onAddToCartClick(product));
         }
     }
 }

@@ -44,7 +44,26 @@ public class CartFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         viewModel = new ViewModelProvider(this).get(CartViewModel.class);
 
-        adapter = new CartAdapter(productRepository, productId -> viewModel.removeFromCart(productId));
+        adapter = new CartAdapter(productRepository, new CartAdapter.OnCartItemClickListener() {
+            @Override
+            public void onRemoveClick(String productId) {
+                viewModel.removeFromCart(productId);
+            }
+
+            @Override
+            public void onIncreaseClick(String productId, int currentQuantity) {
+                viewModel.updateQuantity(productId, currentQuantity + 1);
+            }
+
+            @Override
+            public void onDecreaseClick(String productId, int currentQuantity) {
+                if (currentQuantity > 1) {
+                    viewModel.updateQuantity(productId, currentQuantity - 1);
+                } else {
+                    viewModel.removeFromCart(productId);
+                }
+            }
+        });
         binding.rvCart.setAdapter(adapter);
 
         viewModel.getCart().observe(getViewLifecycleOwner(), resource -> {

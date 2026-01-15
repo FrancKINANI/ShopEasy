@@ -22,7 +22,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel;
 public class AuthViewModel extends ViewModel {
 
     private static final String TAG = "AuthViewModel";
-    
+
     private final AuthRepository repository;
     private final MutableLiveData<FirebaseUser> _user = new MutableLiveData<>();
     public final LiveData<FirebaseUser> user = _user;
@@ -30,9 +30,9 @@ public class AuthViewModel extends ViewModel {
     @Inject
     public AuthViewModel(AuthRepository repository) {
         this.repository = repository;
-        
+
         // ✅ Null-safe initialization
-        FirebaseUser currentUser = repository.getCurrentUser();
+        com.google.firebase.auth.FirebaseUser currentUser = repository.getCurrentUser();
         if (currentUser != null) {
             _user.setValue(currentUser);
             Log.d(TAG, "User already authenticated: " + currentUser.getEmail());
@@ -59,8 +59,22 @@ public class AuthViewModel extends ViewModel {
      * Request password reset
      * ✅ Sends reset email to user
      */
-    public LiveData<Resource<Void>> requestPasswordReset(String email) {
+    public LiveData<Resource<Void>> resetPassword(String email) {
         return repository.resetPassword(email);
+    }
+
+    public LiveData<Resource<com.ma.shopeasy.domain.model.User>> getUserData() {
+        com.google.firebase.auth.FirebaseUser user = repository.getCurrentUser();
+        if (user != null) {
+            return repository.getUserData(user.getUid());
+        }
+        MutableLiveData<Resource<com.ma.shopeasy.domain.model.User>> result = new MutableLiveData<>();
+        result.setValue(Resource.error("User not logged in"));
+        return result;
+    }
+
+    public LiveData<Resource<com.ma.shopeasy.domain.model.User>> getUserProfile(String uid) {
+        return repository.getUserData(uid);
     }
 
     /**

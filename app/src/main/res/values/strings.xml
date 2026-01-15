@@ -1,3 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">ShopEasy</string>
+    <string-array name="stock_status_options">
+        <item>En Stock</item>
+        <item>Rupture de Stock</item>
+        <item>Délai de Livraison</item>
+    </string-array>
 </resources>

@@ -63,12 +63,31 @@ public class ProductRepository {
     private void populateDummyData() {
         for (int i = 1; i <= 10; i++) {
             Product p = new Product("p" + i, "Product " + i, "Description for product " + i, i * 10.0, "Category",
-                    "https://via.placeholder.com/150", 4.5f, 100);
+                    "https://via.placeholder.com/150", 4.5f, 100, "Supplier", "IN_STOCK");
             firestore.collection("products").document(p.getId()).set(p);
         }
     }
 
     public LiveData<Product> getProductById(String id) {
         return productDao.getProductById(id);
+    }
+
+    public LiveData<Resource<Void>> updateProduct(Product product) {
+        MutableLiveData<Resource<Void>> result = new MutableLiveData<>();
+        result.setValue(Resource.loading());
+
+        firestore.collection("products")
+                .document(product.getId())
+                .set(product)
+                .addOnSuccessListener(aVoid -> {
+                    result.setValue(Resource.success(null));
+                    // Update cache
+                    executor.execute(() -> productDao.insertProduct(product));
+                })
+                .addOnFailureListener(e -> {
+                    result.setValue(Resource.error(e.getMessage()));
+                });
+
+        return result;
     }
 }

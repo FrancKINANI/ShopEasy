@@ -156,10 +156,11 @@ public class AuthRepository {
     /**
      * Create user document in Firestore
      * ✅ Called after registration
+     * ✅ Default role: USER
      */
     private void createUserDocument(FirebaseUser user, String email, String name,
-                                    MutableLiveData<Resource<FirebaseUser>> result) {
-        User userData = new User(user.getUid(), email, name);
+            MutableLiveData<Resource<FirebaseUser>> result) {
+        User userData = new User(user.getUid(), name, email, "", User.Role.USER);
 
         firestore.collection("users")
                 .document(user.getUid())
@@ -172,6 +173,31 @@ public class AuthRepository {
                     result.setValue(Resource.error("Failed to create user profile"));
                     Log.e(TAG, "Failed to create user document", e);
                 });
+    }
+
+    /**
+     * Fetch full user profile from Firestore
+     */
+    public LiveData<Resource<User>> getUserData(String uid) {
+        MutableLiveData<Resource<User>> result = new MutableLiveData<>();
+        result.setValue(Resource.loading());
+
+        firestore.collection("users")
+                .document(uid)
+                .get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    User user = documentSnapshot.toObject(User.class);
+                    if (user != null) {
+                        result.setValue(Resource.success(user));
+                    } else {
+                        result.setValue(Resource.error("User not found"));
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    result.setValue(Resource.error(e.getMessage()));
+                });
+
+        return result;
     }
 
     /**
@@ -199,7 +225,7 @@ public class AuthRepository {
         return password != null &&
                 password.length() >= 8 &&
                 password.matches(".*[A-Z].*") && // At least one uppercase
-                password.matches(".*\\d.*");     // At least one digit
+                password.matches(".*\\d.*"); // At least one digit
     }
 
     // ✅ SECURITY: Map Firebase exceptions to safe user messages

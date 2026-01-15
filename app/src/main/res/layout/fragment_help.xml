@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent" android:layout_height="match_parent" android:background="@color/gray_50">
+
+    <com.google.android.material.appbar.AppBarLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:background="@android:color/transparent" app:elevation="0dp">
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout android:layout_width="match_parent" android:layout_height="220dp" app:layout_scrollFlags="scroll|exitUntilCollapsed" app:contentScrim="@color/primary" app:expandedTitleGravity="bottom|center_horizontal">
+
+            <View android:layout_width="match_parent" android:layout_height="match_parent" android:background="@color/primary"/>
+
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:gravity="center" android:layout_gravity="center">
+
+                <ImageView android:layout_width="64dp" android:layout_height="64dp" android:src="@drawable/logo" android:padding="12dp" android:background="@drawable/shape_circle_white" android:layout_marginBottom="16dp"/>
+
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Centre d'Aide" android:textSize="24sp" android:fontFamily="@font/poppins_bold" android:textColor="@color/white" />
+
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Comment pouvons-nous aider ?" android:textSize="14sp" android:fontFamily="@font/inter_regular" android:textColor="@color/gray_300" />
+            </LinearLayout>
+
+            <androidx.appcompat.widget.Toolbar android:id="@+id/toolbar" android:layout_width="match_parent" android:layout_height="?attr/actionBarSize" app:layout_collapseMode="pin" app:navigationIcon="@drawable/ic_arrow_back"/>
+
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView android:layout_width="match_parent" android:layout_height="match_parent" android:background="@drawable/shape_bottom_sheet_bg" android:layout_marginTop="-30dp" app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="24dp">
+
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="FAQ" android:textSize="18sp" android:fontFamily="@font/poppins_bold" android:textColor="@color/black" android:layout_marginBottom="16dp" />
+
+            <androidx.recyclerview.widget.RecyclerView android:id="@+id/rvFAQ" android:layout_width="match_parent" android:layout_height="wrap_content" android:nestedScrollingEnabled="false" app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" android:layout_marginBottom="32dp"/>
+
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Contactez-nous" android:textSize="18sp" android:fontFamily="@font/poppins_bold" android:textColor="@color/black" android:layout_marginBottom="16dp" />
+
+            <!-- Contact Form Card -->
+            <com.google.android.material.card.MaterialCardView android:layout_width="match_parent" android:layout_height="wrap_content" app:cardCornerRadius="16dp" app:cardElevation="2dp" app:cardBackgroundColor="@color/white">
+
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="24dp">
+
+                    <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Sujet" app:boxBackgroundColor="@color/gray_50" app:boxCornerRadiusTopStart="12dp" app:boxCornerRadiusTopEnd="12dp" app:boxCornerRadiusBottomStart="12dp" app:boxCornerRadiusBottomEnd="12dp" app:boxStrokeWidth="0dp" android:layout_marginBottom="16dp">
+                        <com.google.android.material.textfield.TextInputEditText android:id="@+id/etSubject" android:layout_width="match_parent" android:layout_height="wrap_content" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Message" app:boxBackgroundColor="@color/gray_50" app:boxCornerRadiusTopStart="12dp" app:boxCornerRadiusTopEnd="12dp" app:boxCornerRadiusBottomStart="12dp" app:boxCornerRadiusBottomEnd="12dp" app:boxStrokeWidth="0dp" android:layout_marginBottom="24dp">
+                        <com.google.android.material.textfield.TextInputEditText android:id="@+id/etMessage" android:layout_width="match_parent" android:layout_height="wrap_content" android:minLines="4" android:gravity="top"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.button.MaterialButton android:id="@+id/btnSubmitHelp" android:layout_width="match_parent" android:layout_height="56dp" android:text="Envoyer" android:fontFamily="@font/poppins_bold" android:textSize="14sp" app:cornerRadius="12dp" android:textColor="@color/white" android:background="@drawable/gradient_cta" app:backgroundTint="@null"/>
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

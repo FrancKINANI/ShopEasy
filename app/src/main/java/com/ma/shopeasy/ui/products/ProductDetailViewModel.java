@@ -31,4 +31,8 @@ public class ProductDetailViewModel extends ViewModel {
     public void addToCart(Product product, int quantity) {
         cartRepository.addToCart(new CartItem(product.getId(), quantity, product.getPrice()));
     }
+
+    public LiveData<com.ma.shopeasy.utils.Resource<Void>> updateProduct(Product product) {
+        return productRepository.updateProduct(product);
+    }
 }

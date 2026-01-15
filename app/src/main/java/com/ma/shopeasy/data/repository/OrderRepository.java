@@ -51,6 +51,23 @@ public class OrderRepository {
         return result;
     }
 
+    public LiveData<Resource<List<Order>>> getAllOrders() {
+        MutableLiveData<Resource<List<Order>>> result = new MutableLiveData<>();
+        result.setValue(Resource.loading());
+        firestore.collection("orders")
+                .orderBy("timestamp", Query.Direction.DESCENDING)
+                .addSnapshotListener((value, error) -> {
+                    if (error != null) {
+                        result.setValue(Resource.error(error.getMessage()));
+                        return;
+                    }
+                    if (value != null) {
+                        result.setValue(Resource.success(value.toObjects(Order.class)));
+                    }
+                });
+        return result;
+    }
+
     public LiveData<Resource<String>> placeOrder(Order order) {
         MutableLiveData<Resource<String>> result = new MutableLiveData<>();
         result.setValue(Resource.loading());

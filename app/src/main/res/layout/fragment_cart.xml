@@ -1,249 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/gray_50">
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent" android:layout_height="match_parent" android:background="@color/gray_50">
 
-    <!-- Empty State View -->
-    <LinearLayout
-        android:id="@+id/emptyStateView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:gravity="center"
-        android:visibility="gone">
+    <com.google.android.material.appbar.AppBarLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:background="@color/gray_50" app:elevation="0dp">
 
-        <ImageView
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:src="@android:drawable/ic_menu_close"
-            android:scaleType="centerInside"
-            android:tint="@color/gray_300"
-            android:layout_marginBottom="24dp" />
+        <androidx.appcompat.widget.Toolbar android:id="@+id/toolbar" android:layout_width="match_parent" android:layout_height="?attr/actionBarSize">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Your Cart is Empty"
-            android:textSize="20sp"
-            android:fontFamily="@font/poppins_bold"
-            android:textColor="@color/black"
-            android:layout_marginBottom="8dp" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Mon Panier" android:textSize="20sp" android:fontFamily="@font/poppins_bold" android:textColor="@color/black" android:layout_gravity="center"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Add some products to get started"
-            android:textSize="14sp"
-            android:fontFamily="@font/inter_regular"
-            android:textColor="@color/gray_500" />
+        </androidx.appcompat.widget.Toolbar>
 
-    </LinearLayout>
+    </com.google.android.material.appbar.AppBarLayout>
 
-    <!-- Header -->
-    <LinearLayout
-        android:id="@+id/header"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@drawable/gradient_blue_accent"
-        android:padding="24dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+    <androidx.core.widget.NestedScrollView android:layout_width="match_parent" android:layout_height="match_parent" android:paddingBottom="100dp" app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Shopping Cart"
-            android:textSize="24sp"
-            android:fontFamily="@font/poppins_bold"
-            android:textColor="@color/white"
-            android:textStyle="bold" />
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp">
 
-        <TextView
-            android:id="@+id/tvItemCount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="3 items"
-            android:textSize="13sp"
-            android:fontFamily="@font/inter_regular"
-            android:textColor="@color/gray_100"
-            android:layout_marginTop="4dp" />
+            <androidx.recyclerview.widget.RecyclerView android:id="@+id/rvCart" android:layout_width="match_parent" android:layout_height="wrap_content" app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" android:nestedScrollingEnabled="false"/>
 
-    </LinearLayout>
+            <LinearLayout android:id="@+id/emptyStateView" android:layout_width="match_parent" android:layout_height="300dp" android:orientation="vertical" android:gravity="center" android:visibility="gone">
 
-    <!-- Cart Items List -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvCart"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:padding="12dp"
-        android:clipToPadding="false"
-        app:layout_constraintTop_toBottomOf="@+id/header"
-        app:layout_constraintBottom_toTopOf="@id/bottomCard"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+                <ImageView android:layout_width="100dp" android:layout_height="100dp" android:src="@drawable/ic_close" android:alpha="0.2" android:layout_marginBottom="24dp"/>
 
-    <!-- Checkout Section -->
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/bottomCard"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        app:cardCornerRadius="16dp"
-        app:cardElevation="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Votre panier est vide" android:fontFamily="@font/poppins_bold" android:textSize="18sp" android:textColor="@color/gray_500"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="20dp">
-
-            <!-- Price Breakdown -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginBottom="20dp">
-
-                <!-- Subtotal -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    android:layout_marginBottom="12dp">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Subtotal"
-                        android:textSize="13sp"
-                        android:fontFamily="@font/inter_regular"
-                        android:textColor="@color/gray_600" />
-
-                    <TextView
-                        android:id="@+id/tvSubtotal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="$0.00"
-                        android:textSize="13sp"
-                        android:fontFamily="@font/inter_regular"
-                        android:textColor="@color/gray_700" />
-
-                </LinearLayout>
-
-                <!-- Shipping -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    android:layout_marginBottom="12dp">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Shipping"
-                        android:textSize="13sp"
-                        android:fontFamily="@font/inter_regular"
-                        android:textColor="@color/gray_600" />
-
-                    <TextView
-                        android:id="@+id/tvShipping"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Free"
-                        android:textSize="13sp"
-                        android:fontFamily="@font/poppins_semibold"
-                        android:textColor="@color/success" />
-
-                </LinearLayout>
-
-                <!-- Divider -->
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/gray_200"
-                    android:layout_marginVertical="12dp" />
-
-                <!-- Total -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Total"
-                        android:textSize="16sp"
-                        android:fontFamily="@font/poppins_bold"
-                        android:textColor="@color/black"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/tvTotal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="$0.00"
-                        android:textSize="18sp"
-                        android:fontFamily="@font/poppins_bold"
-                        android:textColor="@color/primary"
-                        android:textStyle="bold" />
-
-                </LinearLayout>
-
+                <com.google.android.material.button.MaterialButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Commencer à acheter" android:layout_marginTop="16dp" android:textColor="@color/primary" android:backgroundTint="@color/white" strokeColor="@color/primary" strokeWidth="1dp" app:cornerRadius="20dp"/>
             </LinearLayout>
 
-            <!-- Checkout Button -->
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnCheckout"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:text="Proceed to Checkout"
-                android:textSize="14sp"
-                android:fontFamily="@font/poppins_bold"
-                android:textColor="@color/white"
-                android:backgroundTint="@color/primary"
-                app:cornerRadius="12dp"
-                android:layout_marginBottom="12dp" />
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 
-            <!-- Continue Shopping -->
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnContinueShopping"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:text="Continue Shopping"
-                android:textSize="13sp"
-                android:fontFamily="@font/poppins_semibold"
-                android:textColor="@color/primary"
-                android:backgroundTint="@color/gray_100"
-                app:cornerRadius="10dp"
-                android:visibility="gone" />
+    <com.google.android.material.card.MaterialCardView android:id="@+id/bottomCard" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_gravity="bottom" app:cardElevation="16dp" app:shapeAppearanceOverlay="@style/ShapeAppearance.App.TopRounded" app:cardBackgroundColor="@color/white">
 
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="24dp">
+
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginBottom="16dp">
+
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Total" android:textSize="18sp" android:fontFamily="@font/poppins_semibold" android:textColor="@color/gray_600" />
+
+                <TextView android:id="@+id/tvTotal" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0.00 €" android:textSize="24sp" android:fontFamily="@font/poppins_bold" android:textColor="@color/black" />
+            </LinearLayout>
+
+            <com.google.android.material.button.MaterialButton android:id="@+id/btnCheckout" android:layout_width="match_parent" android:layout_height="56dp" android:text="Passer la commande" android:textSize="16sp" android:fontFamily="@font/poppins_bold" android:textColor="@color/white" android:background="@drawable/gradient_cta" app:backgroundTint="@null" app:cornerRadius="12dp" />
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 
-    <!-- Progress Bar -->
-    <ProgressBar
-        android:id="@+id/progressBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <ProgressBar android:id="@+id/progressBar" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center" android:visibility="gone" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

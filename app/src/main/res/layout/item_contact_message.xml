@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="12dp" app:cardCornerRadius="16dp" app:cardElevation="2dp" app:cardBackgroundColor="@color/white" app:strokeWidth="0dp">
+
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp">
+
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:layout_marginBottom="12dp">
+
+            <View android:layout_width="4dp" android:layout_height="24dp" android:background="@color/primary" android:layout_marginEnd="12dp"/>
+
+            <TextView android:id="@+id/tvSubject" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Sujet du message" android:fontFamily="@font/poppins_semibold" android:textColor="@color/black" android:textSize="14sp"/>
+
+            <TextView android:id="@+id/tvDate" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="12 Jan" android:fontFamily="@font/inter_regular" android:textColor="@color/gray_400" android:textSize="11sp"/>
+        </LinearLayout>
+
+        <TextView android:id="@+id/tvEmail" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="client@email.com" android:fontFamily="@font/inter_regular" android:textColor="@color/primary" android:textSize="12sp" android:layout_marginBottom="8dp"/>
+
+        <TextView android:id="@+id/tvMessage" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Contenu du message..." android:fontFamily="@font/inter_regular" android:textColor="@color/gray_600" android:textSize="13sp" android:lineSpacingMultiplier="1.2"/>
+
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>

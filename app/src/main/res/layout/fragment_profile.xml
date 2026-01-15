@@ -1,313 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/gray_50"
-    android:scrollbars="none">
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent" android:layout_height="match_parent" android:background="@color/gray_50">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingBottom="40dp">
+    <com.google.android.material.appbar.AppBarLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:background="@android:color/transparent" app:elevation="0dp">
 
-        <!-- Header with Gradient -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="180dp"
-            android:orientation="vertical"
-            android:background="@drawable/gradient_blue_accent"
-            android:gravity="center"
-            android:padding="24dp">
+        <com.google.android.material.appbar.CollapsingToolbarLayout android:layout_width="match_parent" android:layout_height="280dp" app:layout_scrollFlags="scroll|exitUntilCollapsed" app:contentScrim="@color/primary">
 
-            <!-- Profile Picture -->
-            <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/ivProfile"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:src="@android:drawable/ic_menu_myplaces"
-                android:scaleType="centerCrop"
-                android:contentDescription="User profile picture"
-                app:shapeAppearance="@style/ShapeAppearance.App.CircularShape"
-                android:elevation="4dp" />
+            <!-- Deep Navy Header Background -->
+            <View android:layout_width="match_parent" android:layout_height="match_parent" android:background="@color/primary"/>
 
-        </LinearLayout>
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:gravity="center" android:layout_marginTop="60dp" app:layout_collapseMode="parallax">
 
-        <!-- User Info Card (Overlapped) -->
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="24dp"
-            android:layout_marginTop="-40dp"
-            app:cardCornerRadius="20dp"
-            app:cardElevation="8dp">
+                <com.google.android.material.imageview.ShapeableImageView android:id="@+id/ivProfile" android:layout_width="100dp" android:layout_height="100dp" android:src="@android:drawable/ic_menu_myplaces" android:scaleType="centerCrop" app:shapeAppearance="@style/ShapeAppearance.App.CircularShape" app:strokeColor="@color/white" app:strokeWidth="2dp" android:padding="2dp" android:background="@color/white"/>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="24dp"
-                android:gravity="center">
+                <TextView android:id="@+id/tvUserName" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="John Doe" android:textSize="22sp" android:fontFamily="@font/poppins_bold" android:textColor="@color/white" android:layout_marginTop="12dp" />
 
-                <TextView
-                    android:id="@+id/tvUserName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="John Doe"
-                    android:textSize="22sp"
-                    android:fontFamily="@font/poppins_bold"
-                    android:textColor="@color/black"
-                    android:textStyle="bold"
-                    android:layout_marginBottom="8dp" />
-
-                <TextView
-                    android:id="@+id/tvUserEmail"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="john.doe@example.com"
-                    android:textSize="13sp"
-                    android:fontFamily="@font/inter_regular"
-                    android:textColor="@color/gray_500"
-                    android:layout_marginBottom="16dp" />
-
-                <!-- Edit Profile Button -->
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnEditProfile"
-                    android:layout_width="match_parent"
-                    android:layout_height="44dp"
-                    android:text="Edit Profile"
-                    android:textSize="13sp"
-                    android:fontFamily="@font/poppins_semibold"
-                    android:textColor="@color/white"
-                    android:backgroundTint="@color/primary"
-                    app:cornerRadius="10dp" />
-
+                <TextView android:id="@+id/tvUserEmail" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="john.doe@example.com" android:textSize="14sp" android:fontFamily="@font/inter_regular" android:textColor="@color/gray_100" />
             </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
 
-        <!-- Settings Section -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginHorizontal="24dp"
-            android:layout_marginTop="32dp">
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
 
-            <!-- Section Title -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Preferences"
-                android:textSize="16sp"
-                android:fontFamily="@font/poppins_bold"
-                android:textColor="@color/black"
-                android:layout_marginBottom="16dp" />
+    <androidx.core.widget.NestedScrollView android:layout_width="match_parent" android:layout_height="match_parent" android:background="@drawable/shape_bottom_sheet_bg" android:layout_marginTop="-30dp" app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <!-- Dark Mode Toggle -->
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="2dp"
-                android:layout_marginBottom="12dp">
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="24dp">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="16dp"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
+            <!-- Edit Profile Action -->
+            <com.google.android.material.button.MaterialButton android:id="@+id/btnEditProfile" android:layout_width="match_parent" android:layout_height="56dp" android:text="Modifier le profil" android:textSize="14sp" android:fontFamily="@font/poppins_semibold" android:textColor="@color/primary" android:backgroundTint="@color/white" app:strokeColor="@color/primary" app:strokeWidth="1dp" app:cornerRadius="12dp" android:layout_marginBottom="32dp"/>
 
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
+            <!-- Settings Section -->
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Préférences" android:textSize="18sp" android:fontFamily="@font/poppins_bold" android:textColor="@color/black" android:layout_marginBottom="16dp" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Dark Mode"
-                            android:textSize="15sp"
-                            android:fontFamily="@font/poppins_semibold"
-                            android:textColor="@color/black"
-                            android:layout_marginBottom="4dp" />
+            <!-- Dark Mode Item -->
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:background="@color/white" android:padding="16dp" android:layout_marginBottom="16dp" android:elevation="2dp">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Protect your eyes"
-                            android:textSize="11sp"
-                            android:fontFamily="@font/inter_regular"
-                            android:textColor="@color/gray_500" />
-                    </LinearLayout>
+                <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@android:drawable/ic_menu_day" app:tint="@color/primary" android:layout_marginEnd="16dp"/>
 
-                    <com.google.android.material.materialswitch.MaterialSwitch
-                        android:id="@+id/switchDarkMode"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp" />
+                <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical">
 
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Mode Sombre" android:fontFamily="@font/poppins_semibold" android:textColor="@color/black" />
+
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Protéger vos yeux" android:textSize="12sp" android:textColor="@color/gray_500" />
                 </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
 
-            <!-- Notifications Toggle -->
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="2dp"
-                android:layout_marginBottom="12dp">
+                <com.google.android.material.materialswitch.MaterialSwitch android:id="@+id/switchDarkMode" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+            </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="16dp"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
+            <!-- Notifications Item -->
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:background="@color/white" android:padding="16dp" android:layout_marginBottom="32dp" android:elevation="2dp">
 
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
+                <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@android:drawable/ic_popup_reminder" app:tint="@color/accent" android:layout_marginEnd="16dp"/>
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Push Notifications"
-                            android:textSize="15sp"
-                            android:fontFamily="@font/poppins_semibold"
-                            android:textColor="@color/black"
-                            android:layout_marginBottom="4dp" />
+                <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Get updates and offers"
-                            android:textSize="11sp"
-                            android:fontFamily="@font/inter_regular"
-                            android:textColor="@color/gray_500" />
-                    </LinearLayout>
-
-                    <com.google.android.material.materialswitch.MaterialSwitch
-                        android:id="@+id/switchNotifications"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:checked="true" />
-
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Notifications" android:fontFamily="@font/poppins_semibold" android:textColor="@color/black" />
                 </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.materialswitch.MaterialSwitch android:id="@+id/switchNotifications" android:layout_width="wrap_content" android:layout_height="wrap_content" android:checked="true" />
+            </LinearLayout>
+
+            <!-- Account Section -->
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Compte" android:textSize="18sp" android:fontFamily="@font/poppins_bold" android:textColor="@color/black" android:layout_marginBottom="16dp" />
+
+            <TextView android:id="@+id/helpSupport" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Aide &amp; Support" android:padding="16dp" android:background="@color/white" android:fontFamily="@font/poppins_semibold" android:layout_marginBottom="12dp"/>
+
+            <TextView android:id="@+id/about" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="À propos" android:padding="16dp" android:background="@color/white" android:fontFamily="@font/poppins_semibold" android:layout_marginBottom="24dp"/>
+
+            <com.google.android.material.button.MaterialButton android:id="@+id/btnLogout" android:layout_width="match_parent" android:layout_height="56dp" android:text="Se Déconnecter" android:textSize="14sp" android:fontFamily="@font/poppins_bold" android:textColor="@color/error" android:backgroundTint="@color/error_light" app:cornerRadius="12dp" app:icon="@drawable/ic_close" app:iconTint="@color/error" app:iconGravity="textStart"/>
 
         </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 
-        <!-- Account Section -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginHorizontal="24dp"
-            android:layout_marginTop="32dp">
-
-            <!-- Section Title -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Account"
-                android:textSize="16sp"
-                android:fontFamily="@font/poppins_bold"
-                android:textColor="@color/black"
-                android:layout_marginBottom="16dp" />
-
-            <!-- Help & Support -->
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="2dp"
-                android:layout_marginBottom="12dp"
-                android:clickable="true"
-                android:focusable="true">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="16dp"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Help &amp; Support"
-                        android:textSize="14sp"
-                        android:fontFamily="@font/poppins_semibold"
-                        android:textColor="@color/black" />
-
-                    <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:src="@android:drawable/ic_menu_forward"
-                        android:contentDescription="Open help"
-                        app:tint="@color/gray_400" />
-
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-            <!-- About Us -->
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="2dp"
-                android:layout_marginBottom="12dp"
-                android:clickable="true"
-                android:focusable="true">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="16dp"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="About ShopEasy"
-                        android:textSize="14sp"
-                        android:fontFamily="@font/poppins_semibold"
-                        android:textColor="@color/black" />
-
-                    <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:src="@android:drawable/ic_menu_forward"
-                        android:contentDescription="Open about"
-                        app:tint="@color/gray_400" />
-
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-            <!-- Logout Button -->
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnLogout"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:text="Logout"
-                android:textSize="14sp"
-                android:fontFamily="@font/poppins_bold"
-                android:textColor="@color/white"
-                android:backgroundTint="@color/error"
-                app:cornerRadius="12dp"
-                android:layout_marginTop="24dp" />
-
-        </LinearLayout>
-
-    </LinearLayout>
-
-</ScrollView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

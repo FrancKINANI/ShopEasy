@@ -39,8 +39,8 @@ public class LoginFragment extends Fragment {
         viewModel = new ViewModelProvider(this).get(AuthViewModel.class);
 
         // ✅ Check if already logged in
-        if (viewModel.user.getValue() != null) {
-            Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_homeFragment);
+        if (viewModel.isUserLoggedIn()) {
+            checkRoleAndNavigate(viewModel.user.getValue(), view);
             return;
         }
 
@@ -115,7 +115,9 @@ public class LoginFragment extends Fragment {
                 binding.progressBar.setVisibility(View.GONE);
                 binding.btnLogin.setEnabled(true);
                 showSuccess("Login successful");
-                Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_homeFragment);
+                if (resource.data instanceof com.google.firebase.auth.FirebaseUser) {
+                    checkRoleAndNavigate((com.google.firebase.auth.FirebaseUser) resource.data, view);
+                }
                 break;
 
             case ERROR:
@@ -128,14 +130,30 @@ public class LoginFragment extends Fragment {
         }
     }
 
+    private void checkRoleAndNavigate(com.google.firebase.auth.FirebaseUser user, View view) {
+        if (user == null)
+            return;
+
+        viewModel.getUserProfile(user.getUid()).observe(getViewLifecycleOwner(), resource -> {
+            if (resource.status == com.ma.shopeasy.utils.Resource.Status.SUCCESS && resource.data != null) {
+                if (com.ma.shopeasy.domain.model.User.Role.ADMIN.equals(resource.data.getRole())) {
+                    Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_adminDashboardFragment);
+                } else {
+                    Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_homeFragment);
+                }
+            } else if (resource.status == com.ma.shopeasy.utils.Resource.Status.ERROR) {
+                // Fallback to home if profile fetch fails
+                Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_homeFragment);
+            }
+        });
+    }
+
     /**
      * Setup forgot password link
      */
     private void setupForgotPasswordLink(View view) {
         binding.tvForgotPassword.setOnClickListener(v -> {
-            // TODO: Navigate to forgot password screen
-            // Navigation.findNavController(v).navigate(R.id.action_loginFragment_to_forgotPasswordFragment);
-            showInfo("Password reset feature coming soon");
+            Navigation.findNavController(v).navigate(R.id.action_loginFragment_to_forgotPasswordFragment);
         });
     }
 
@@ -143,9 +161,8 @@ public class LoginFragment extends Fragment {
      * Setup signup link
      */
     private void setupSignupLink(View view) {
-        binding.tvToSignup.setOnClickListener(v ->
-                Navigation.findNavController(v).navigate(R.id.action_loginFragment_to_signupFragment)
-        );
+        binding.tvSignup.setOnClickListener(
+                v -> Navigation.findNavController(v).navigate(R.id.action_loginFragment_to_signupFragment));
     }
 
     // ✅ VALIDATION HELPERS

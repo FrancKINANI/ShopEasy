@@ -52,7 +52,7 @@ public class SignupFragment extends Fragment {
                         break;
                     case SUCCESS:
                         binding.progressBar.setVisibility(View.GONE);
-                        Navigation.findNavController(view).navigate(R.id.action_signupFragment_to_homeFragment);
+                        Navigation.findNavController(view).navigate(R.id.action_signupFragment_to_loginFragment);
                         break;
                     case ERROR:
                         binding.progressBar.setVisibility(View.GONE);
@@ -61,6 +61,10 @@ public class SignupFragment extends Fragment {
                         break;
                 }
             });
+        });
+
+        binding.tvLogin.setOnClickListener(v -> {
+            Navigation.findNavController(view).navigate(R.id.action_signupFragment_to_loginFragment);
         });
     }
 

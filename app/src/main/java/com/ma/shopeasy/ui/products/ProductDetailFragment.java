@@ -72,6 +72,40 @@ public class ProductDetailFragment extends Fragment {
                 Toast.makeText(getContext(), "Added to cart", Toast.LENGTH_SHORT).show();
             }
         });
+
+        binding.btnAskQuestion.setOnClickListener(v -> {
+            showAskQuestionDialog();
+        });
+    }
+
+    private void showAskQuestionDialog() {
+        android.widget.EditText etQuestion = new android.widget.EditText(getContext());
+        new androidx.appcompat.app.AlertDialog.Builder(requireContext())
+                .setTitle("Poser une question")
+                .setView(etQuestion)
+                .setPositiveButton("Envoyer", (dialog, which) -> {
+                    String question = etQuestion.getText().toString().trim();
+                    if (!question.isEmpty()) {
+                        submitQuestion(question);
+                    }
+                })
+                .setNegativeButton("Annuler", null)
+                .show();
+    }
+
+    private void submitQuestion(String question) {
+        if (currentProduct == null)
+            return;
+
+        com.ma.shopeasy.domain.model.FAQItem newItem = new com.ma.shopeasy.domain.model.FAQItem(question, null);
+        currentProduct.getFaqList().add(newItem);
+
+        viewModel.updateProduct(currentProduct).observe(getViewLifecycleOwner(), resource -> {
+            if (resource.status == com.ma.shopeasy.utils.Resource.Status.SUCCESS) {
+                Toast.makeText(getContext(), "Question envoyée. L'administrateur vous répondra bientôt.",
+                        Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     private void displayProduct(Product product) {
@@ -79,6 +113,22 @@ public class ProductDetailFragment extends Fragment {
         binding.tvPrice.setText(String.format(Locale.getDefault(), "$%.2f", product.getPrice()));
         binding.tvDescription.setText(product.getDescription());
         binding.ratingBar.setRating(product.getRating());
+
+        // ✅ Stock Status
+        String status = product.getStockStatus();
+        if ("IN_STOCK".equals(status)) {
+            binding.tvStockStatus.setText("En stock");
+            binding.tvStockStatus.setTextColor(getResources().getColor(android.R.color.holo_green_dark));
+            binding.btnAddToCart.setEnabled(true);
+        } else if ("DELAYED".equals(status)) {
+            binding.tvStockStatus.setText("2-3 jours de délai");
+            binding.tvStockStatus.setTextColor(getResources().getColor(android.R.color.holo_orange_dark));
+            binding.btnAddToCart.setEnabled(true);
+        } else {
+            binding.tvStockStatus.setText("Rupture de stock");
+            binding.tvStockStatus.setTextColor(getResources().getColor(android.R.color.holo_red_dark));
+            binding.btnAddToCart.setEnabled(false);
+        }
 
         Glide.with(this)
                 .load(product.getImageUrl())
