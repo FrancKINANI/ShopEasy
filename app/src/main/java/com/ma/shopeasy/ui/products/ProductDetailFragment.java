@@ -97,10 +97,27 @@ public class ProductDetailFragment extends Fragment {
         if (currentProduct == null)
             return;
 
+        // ✅ 1. Add to local product FAQ (for display purposes)
         com.ma.shopeasy.domain.model.FAQItem newItem = new com.ma.shopeasy.domain.model.FAQItem(question, null);
         currentProduct.getFaqList().add(newItem);
-
         viewModel.updateProduct(currentProduct).observe(getViewLifecycleOwner(), resource -> {
+            // Updated product locally
+        });
+
+        // ✅ 2. Send as Support Ticket for Admin visibility
+        com.google.firebase.auth.FirebaseUser user = com.google.firebase.auth.FirebaseAuth.getInstance()
+                .getCurrentUser();
+        String userEmail = user != null ? user.getEmail() : "Anonymous";
+        String userId = user != null ? user.getUid() : "anonymous";
+
+        com.ma.shopeasy.domain.model.ContactMessage message = new com.ma.shopeasy.domain.model.ContactMessage(
+                userId,
+                userEmail,
+                "Question Produit: " + currentProduct.getName(),
+                question);
+        message.setRelatedProductId(productId);
+
+        viewModel.submitQuestion(message).observe(getViewLifecycleOwner(), resource -> {
             if (resource.status == com.ma.shopeasy.utils.Resource.Status.SUCCESS) {
                 Toast.makeText(getContext(), "Question envoyée. L'administrateur vous répondra bientôt.",
                         Toast.LENGTH_LONG).show();

@@ -1,18 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Dark Mode Colors Override -->
-    <color name="primary">#7E8CE0</color>
-    <color name="primary_light">#AAB4F0</color>
-    <color name="primary_dark">#5867C0</color>
+    <!-- Dark Mode Colors - Matching Logo Colors (Lighter variants) -->
+    <color name="primary">#64B5F6</color>
+    <color name="primary_light">#90CAF9</color>
+    <color name="primary_dark">#42A5F5</color>
 
-    <!-- CTA / Accents -->
-    <color name="accent">#FF8A65</color>
-    <color name="accent_light">#FFAB91</color>
-    <color name="accent_blue">#64B5F6</color>
+    <!-- Secondary/Accent - Logo Green (Lighter) -->
+    <color name="accent">#81C784</color>
+    <color name="accent_light">#A5D6A7</color>
+    <color name="accent_dark">#66BB6A</color>
+
+    <!-- CTA Gradient Colors -->
+    <color name="cta_start">#64B5F6</color>
+    <color name="cta_end">#81C784</color>
 
     <!-- Neutrals (Inverted for Dark Theme) -->
-    <color name="black">#FFFFFF</color> <!-- Text color -->
-    <color name="white">#121212</color> <!-- Background color -->
+    <color name="black">#FFFFFF</color>
+    <color name="white">#121212</color>
     <color name="gray_50">#1E1E1E</color>
     <color name="gray_100">#2A2A2A</color>
     <color name="gray_200">#383838</color>
@@ -24,14 +28,15 @@
 
     <!-- Status Colors -->
     <color name="success">#81C784</color>
-    <color name="success_light">#3381C784</color>
+    <color name="success_light">#2E7D32</color>
     <color name="warning">#FFB74D</color>
-    <color name="warning_light">#33FFB74D</color>
+    <color name="warning_light">#F57C00</color>
     <color name="error">#E57373</color>
-    <color name="error_light">#33E57373</color>
+    <color name="error_light">#C62828</color>
+    <color name="info">#64B5F6</color>
 
     <!-- Logo Brand Colors -->
-    <color name="logo_blue">#7E8CE0</color>
+    <color name="logo_blue">#64B5F6</color>
     <color name="logo_green">#81C784</color>
 
     <!-- Overlay & Transparency -->

@@ -84,8 +84,6 @@
 
             </GridLayout>
 
-            <com.google.android.material.button.MaterialButton android:id="@+id/btnLogout" android:layout_width="match_parent" android:layout_height="56dp" android:text="Se déconnecter" android:textSize="16sp" android:fontFamily="@font/poppins_bold" android:textColor="@color/white" android:backgroundTint="@color/error" android:layout_marginTop="24dp" app:cornerRadius="12dp" app:icon="@drawable/ic_close" app:iconGravity="textStart"/>
-
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 

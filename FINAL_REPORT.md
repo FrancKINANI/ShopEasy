@@ -339,43 +339,6 @@ Total Documentation:           8,700+ lines / 50+ pages
 
 ---
 
-## 📅 Roadmap 2026
-
-### Q1 2026 (En cours)
-```
-✅ Design system complet
-✅ Architecture mise en place
-✅ Features de base implémentées
-⏳ Tests suite (70%)
-⏳ Performance optimization
-```
-
-### Q2 2026
-```
-[ ] Payment gateway integration
-[ ] Analytics & tracking
-[ ] Tablet layouts
-[ ] Additional animations
-```
-
-### Q3 2026
-```
-[ ] Admin dashboard
-[ ] Seller management
-[ ] Advanced search
-[ ] Social features (reviews, ratings)
-```
-
-### Q4 2026
-```
-[ ] iOS app launch
-[ ] Web platform
-[ ] AI recommendations
-[ ] International expansion
-```
-
----
-
 ## 💰 Analyse Financière
 
 ### Coûts Estimés (Annuel)

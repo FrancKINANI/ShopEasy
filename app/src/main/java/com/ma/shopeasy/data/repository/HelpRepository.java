@@ -42,9 +42,15 @@ public class HelpRepository {
         MutableLiveData<Resource<Void>> result = new MutableLiveData<>();
         result.setValue(Resource.loading());
 
-        firestore.collection("contact_messages")
-                .document(message.getId())
-                .set(message)
+        com.google.firebase.firestore.DocumentReference docRef;
+        if (message.getId() == null || message.getId().isEmpty()) {
+            docRef = firestore.collection("contact_messages").document();
+            message.setId(docRef.getId());
+        } else {
+            docRef = firestore.collection("contact_messages").document(message.getId());
+        }
+
+        docRef.set(message)
                 .addOnSuccessListener(aVoid -> result.setValue(Resource.success(null)))
                 .addOnFailureListener(e -> result.setValue(Resource.error(e.getMessage())));
 

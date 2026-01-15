@@ -1,41 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Deep Navy Blue Theme (Inspired by Image) -->
-    <color name="primary">#141E46</color>
-    <color name="primary_light">#3A4D8F</color>
-    <color name="primary_dark">#0A0F24</color>
+    <!-- Primary Colors - Matching Logo Blue -->
+    <color name="primary">#2196F3</color>
+    <color name="primary_light">#64B5F6</color>
+    <color name="primary_dark">#1976D2</color>
 
-    <!-- CTA / Accents (Gradient style) -->
-    <color name="accent">#FF4D8D</color>    <!-- Pink/Purple accent -->
-    <color name="accent_light">#FF80AB</color>    <!-- Lighter Pink/Purple accent -->
-    <color name="accent_blue">#4B86F2</color>
+    <!-- Secondary/Accent - Matching Logo Green -->
+    <color name="accent">#4CAF50</color>
+    <color name="accent_light">#81C784</color>
+    <color name="accent_dark">#388E3C</color>
+
+    <!-- CTA Gradient Colors -->
+    <color name="cta_start">#2196F3</color>
+    <color name="cta_end">#4CAF50</color>
 
     <!-- Neutrals -->
     <color name="black">#1A1A1A</color>
     <color name="white">#FFFFFF</color>
-    <color name="gray_50">#F8F9FD</color>    <!-- Very light cool gray -->
-    <color name="gray_100">#F1F3F9</color>
-    <color name="gray_200">#E2E5ED</color>
-    <color name="gray_300">#C9CDD8</color>
-    <color name="gray_400">#9AA0B1</color>
-    <color name="gray_500">#6B758E</color>
-    <color name="gray_600">#4B5368</color>
-    <color name="gray_700">#141E46</color>    <!-- Text matching primary -->
+    <color name="gray_50">#FAFAFA</color>
+    <color name="gray_100">#F5F5F5</color>
+    <color name="gray_200">#EEEEEE</color>
+    <color name="gray_300">#E0E0E0</color>
+    <color name="gray_400">#BDBDBD</color>
+    <color name="gray_500">#9E9E9E</color>
+    <color name="gray_600">#757575</color>
+    <color name="gray_700">#616161</color>
 
     <!-- Status Colors -->
-    <color name="success">#00C853</color>
-    <color name="success_light">#E0F2F1</color>
-    <color name="warning">#FFAB00</color>
-    <color name="warning_light">#FFF8E1</color>
-    <color name="error">#FF3D00</color>
-    <color name="error_light">#FFEBEE</color>
-    <color name="info">#2962FF</color>
+    <color name="success">#4CAF50</color>
+    <color name="success_light">#C8E6C9</color>
+    <color name="warning">#FF9800</color>
+    <color name="warning_light">#FFE0B2</color>
+    <color name="error">#F44336</color>
+    <color name="error_light">#FFCDD2</color>
+    <color name="info">#2196F3</color>
 
-    <!-- Logo Brand Colors (kept as alias) -->
-    <color name="logo_blue">#141E46</color>
-    <color name="logo_green">#00C853</color>
+    <!-- Logo Brand Colors -->
+    <color name="logo_blue">#2196F3</color>
+    <color name="logo_green">#4CAF50</color>
 
     <!-- Overlay & Transparency -->
-    <color name="overlay_dark">#400A0F24</color>
-    <color name="overlay_light">#20FFFFFF</color>
+    <color name="overlay_dark">#801A1A1A</color>
+    <color name="overlay_light">#40FFFFFF</color>
 </resources>

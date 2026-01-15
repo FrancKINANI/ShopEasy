@@ -55,19 +55,37 @@ public class MainActivity extends AppCompatActivity {
         setupNavigation(navController);
     }
 
+    private User.Role currentRole = null;
+
     private void setupNavigation(NavController navController) {
+        // ✅ Default to USER menu on startup
+        binding.bottomNav.getMenu().clear();
+        binding.bottomNav.inflateMenu(R.menu.bottom_nav_menu);
         NavigationUI.setupWithNavController(binding.bottomNav, navController);
 
         AuthViewModel authViewModel = new ViewModelProvider(this).get(AuthViewModel.class);
-        authViewModel.getUserData().observe(this, resource -> {
-            if (resource.status == Resource.Status.SUCCESS && resource.data != null) {
-                binding.bottomNav.getMenu().clear();
-                if (resource.data.getRole() == User.Role.ADMIN) {
-                    binding.bottomNav.inflateMenu(R.menu.admin_bottom_nav_menu);
-                } else {
-                    binding.bottomNav.inflateMenu(R.menu.bottom_nav_menu);
+        authViewModel.userProfile.observe(this, user -> {
+            if (user != null) {
+                User.Role newRole = user.getRole();
+                // ✅ Only update menu if role actually changed
+                if (currentRole != newRole) {
+                    currentRole = newRole;
+                    binding.bottomNav.getMenu().clear();
+                    if (currentRole == User.Role.ADMIN) {
+                        binding.bottomNav.inflateMenu(R.menu.admin_bottom_nav_menu);
+                    } else {
+                        binding.bottomNav.inflateMenu(R.menu.bottom_nav_menu);
+                    }
+                    NavigationUI.setupWithNavController(binding.bottomNav, navController);
                 }
-                NavigationUI.setupWithNavController(binding.bottomNav, navController);
+            } else {
+                // ✅ Reset to USER menu on logout
+                if (currentRole != null) {
+                    currentRole = null;
+                    binding.bottomNav.getMenu().clear();
+                    binding.bottomNav.inflateMenu(R.menu.bottom_nav_menu);
+                    NavigationUI.setupWithNavController(binding.bottomNav, navController);
+                }
             }
         });
 
