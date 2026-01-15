@@ -38,10 +38,7 @@ public class AdminDashboardFragment extends Fragment {
         binding.cardSupport.setOnClickListener(
                 v -> Navigation.findNavController(v).navigate(R.id.action_adminDashboardFragment_to_manageFAQFragment));
 
-        binding.btnLogout.setOnClickListener(v -> {
-            FirebaseAuth.getInstance().signOut();
-            Navigation.findNavController(v).navigate(R.id.action_adminDashboardFragment_to_loginFragment);
-        });
+        // ✅ Logout is now handled via ProfileFragment accessible from bottom nav
     }
 
     @Override
