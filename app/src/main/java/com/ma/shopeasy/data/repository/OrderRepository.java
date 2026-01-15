@@ -79,4 +79,24 @@ public class OrderRepository {
                 });
         return result;
     }
+
+    public LiveData<Resource<Order>> getOrderById(String orderId) {
+        MutableLiveData<Resource<Order>> result = new MutableLiveData<>();
+        result.setValue(Resource.loading());
+
+        firestore.collection("orders").document(orderId)
+                .addSnapshotListener((value, error) -> {
+                    if (error != null) {
+                        result.setValue(Resource.error(error.getMessage()));
+                        return;
+                    }
+                    if (value != null && value.exists()) {
+                        result.setValue(Resource.success(value.toObject(Order.class)));
+                    } else {
+                        result.setValue(Resource.error("Order not found"));
+                    }
+                });
+
+        return result;
+    }
 }

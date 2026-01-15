@@ -30,7 +30,13 @@
         <action android:id="@+id/action_cartFragment_to_ordersFragment" app:destination="@id/ordersFragment" />
     </fragment>
 
-    <fragment android:id="@+id/ordersFragment" android:name="com.ma.shopeasy.ui.orders.OrdersFragment" android:label="Orders" tools:layout="@layout/fragment_orders" />
+    <fragment android:id="@+id/ordersFragment" android:name="com.ma.shopeasy.ui.orders.OrdersFragment" android:label="Orders" tools:layout="@layout/fragment_orders">
+        <action android:id="@+id/action_ordersFragment_to_orderDetailFragment" app:destination="@id/orderDetailFragment" />
+    </fragment>
+
+    <fragment android:id="@+id/orderDetailFragment" android:name="com.ma.shopeasy.ui.orders.OrderDetailFragment" android:label="Order Details" tools:layout="@layout/fragment_order_detail">
+        <argument android:name="orderId" app:argType="string" />
+    </fragment>
 
     <fragment android:id="@+id/profileFragment" android:name="com.ma.shopeasy.ui.auth.ProfileFragment" android:label="Profile" tools:layout="@layout/fragment_profile">
         <action android:id="@+id/action_profileFragment_to_helpFragment" app:destination="@id/helpFragment" />
@@ -58,6 +64,7 @@
     </fragment>
     <fragment android:id="@+id/manageOrdersFragment" android:name="com.ma.shopeasy.ui.orders.OrdersFragment" android:label="Manage Orders" tools:layout="@layout/fragment_orders">
         <argument android:name="isAdmin" app:argType="boolean" android:defaultValue="true" />
+        <action android:id="@+id/action_manageOrdersFragment_to_orderDetailFragment" app:destination="@id/orderDetailFragment" />
     </fragment>
     <fragment android:id="@+id/manageFAQFragment" android:name="com.ma.shopeasy.ui.admin.ManageFAQFragment" android:label="Manage Questions" tools:layout="@layout/fragment_manage_questions" />
     <fragment android:id="@+id/editProductAdminFragment" android:name="com.ma.shopeasy.ui.admin.EditProductAdminFragment" android:label="Edit Product" tools:layout="@layout/fragment_edit_product_admin" />

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="8dp" app:cardCornerRadius="12dp" app:cardElevation="0dp" app:strokeWidth="1dp" app:strokeColor="@color/gray_200">
+
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:padding="8dp">
+
+        <com.google.android.material.imageview.ShapeableImageView android:id="@+id/ivProduct" android:layout_width="60dp" android:layout_height="60dp" android:scaleType="centerCrop" app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Medium" android:background="@color/gray_100" />
+
+        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginStart="12dp" android:orientation="vertical" android:layout_gravity="center_vertical">
+
+            <TextView android:id="@+id/tvProductName" android:layout_width="wrap_content" android:layout_height="wrap_content" android:fontFamily="@font/poppins_semibold" android:text="Nom du produit" android:textColor="@color/black" android:textSize="14sp" />
+
+            <TextView android:id="@+id/tvQuantityPrice" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="2 x 49.99 $" android:textColor="@color/gray_500" android:textSize="12sp" />
+        </LinearLayout>
+
+        <TextView android:id="@+id/tvItemTotal" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center_vertical" android:fontFamily="@font/poppins_bold" android:text="99.98 $" android:textColor="@color/black" android:textSize="14sp" />
+
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

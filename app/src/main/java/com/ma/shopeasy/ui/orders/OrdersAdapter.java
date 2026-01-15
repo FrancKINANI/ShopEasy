@@ -16,8 +16,15 @@ import java.util.Locale;
 
 public class OrdersAdapter extends ListAdapter<Order, OrdersAdapter.OrderViewHolder> {
 
-    public OrdersAdapter() {
+    public interface OnOrderClickListener {
+        void onOrderClick(String orderId);
+    }
+
+    private final OnOrderClickListener listener;
+
+    public OrdersAdapter(OnOrderClickListener listener) {
         super(DIFF_CALLBACK);
+        this.listener = listener;
     }
 
     private static final DiffUtil.ItemCallback<Order> DIFF_CALLBACK = new DiffUtil.ItemCallback<Order>() {
@@ -36,7 +43,7 @@ public class OrdersAdapter extends ListAdapter<Order, OrdersAdapter.OrderViewHol
     @Override
     public OrderViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         ItemOrderBinding binding = ItemOrderBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
-        return new OrderViewHolder(binding);
+        return new OrderViewHolder(binding, listener);
     }
 
     @Override
@@ -47,10 +54,12 @@ public class OrdersAdapter extends ListAdapter<Order, OrdersAdapter.OrderViewHol
     static class OrderViewHolder extends RecyclerView.ViewHolder {
         private final ItemOrderBinding binding;
         private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
+        private final OnOrderClickListener listener;
 
-        public OrderViewHolder(ItemOrderBinding binding) {
+        public OrderViewHolder(ItemOrderBinding binding, OnOrderClickListener listener) {
             super(binding.getRoot());
             this.binding = binding;
+            this.listener = listener;
         }
 
         public void bind(Order order) {
@@ -61,6 +70,12 @@ public class OrdersAdapter extends ListAdapter<Order, OrdersAdapter.OrderViewHol
             if (order.getOrderDate() != null) {
                 binding.tvDate.setText("Date: " + dateFormat.format(order.getOrderDate()));
             }
+
+            binding.btnViewDetails.setOnClickListener(v -> {
+                if (listener != null && order.getOrderId() != null) {
+                    listener.onOrderClick(order.getOrderId());
+                }
+            });
         }
     }
 }

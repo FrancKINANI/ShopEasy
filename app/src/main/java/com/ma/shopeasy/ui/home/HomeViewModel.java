@@ -32,6 +32,7 @@ public class HomeViewModel extends ViewModel {
     }
 
     public void addToCart(Product product) {
-        cartRepository.addToCart(new com.ma.shopeasy.domain.model.CartItem(product.getId(), 1, product.getPrice()));
+        cartRepository.addToCart(new com.ma.shopeasy.domain.model.CartItem(product.getId(), product.getName(),
+                product.getImageUrl(), 1, product.getPrice()));
     }
 }

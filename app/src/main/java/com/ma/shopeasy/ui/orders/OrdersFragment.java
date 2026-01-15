@@ -11,6 +11,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import androidx.navigation.Navigation;
+import com.ma.shopeasy.R;
 import com.ma.shopeasy.databinding.FragmentOrdersBinding;
 
 import dagger.hilt.android.AndroidEntryPoint;
@@ -33,10 +35,16 @@ public class OrdersFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         viewModel = new ViewModelProvider(this).get(OrdersViewModel.class);
 
-        adapter = new OrdersAdapter();
-        binding.rvOrders.setAdapter(adapter);
-
         boolean isAdmin = getArguments() != null && getArguments().getBoolean("isAdmin", false);
+
+        adapter = new OrdersAdapter(orderId -> {
+            Bundle args = new Bundle();
+            args.putString("orderId", orderId);
+            int actionId = isAdmin ? R.id.action_manageOrdersFragment_to_orderDetailFragment
+                    : R.id.action_ordersFragment_to_orderDetailFragment;
+            Navigation.findNavController(view).navigate(actionId, args);
+        });
+        binding.rvOrders.setAdapter(adapter);
 
         if (isAdmin) {
             binding.tvTitle.setText("Toutes les Commandes");
