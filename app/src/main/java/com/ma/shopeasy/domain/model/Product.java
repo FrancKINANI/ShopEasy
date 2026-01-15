@@ -6,6 +6,8 @@ import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -28,7 +30,7 @@ public class Product implements Serializable {
     private int stock;
     private String supplierInfo;
     private String stockStatus; // "IN_STOCK", "OUT_OF_STOCK", "DELAYED"
-    private java.util.List<FAQItem> faqList;
+    private List<FAQItem> faqList;
 
     public Product() {
         // Required for Firebase/Room
@@ -48,7 +50,7 @@ public class Product implements Serializable {
         this.stock = stock;
         this.supplierInfo = supplierInfo;
         this.stockStatus = stockStatus;
-        this.faqList = new java.util.ArrayList<>();
+        this.faqList = new ArrayList<>();
     }
 
     // ✅ GETTERS & SETTERS WITH VALIDATION
@@ -118,16 +120,11 @@ public class Product implements Serializable {
     }
 
     public void setImageUrl(String imageUrl) {
-        if (imageUrl != null) {
-            // ✅ Basic URL validation
-            if (!imageUrl.startsWith("http://") && !imageUrl.startsWith("https://")) {
-                throw new IllegalArgumentException("Invalid image URL (must be HTTP/HTTPS)");
-            }
-            if (imageUrl.length() > 2048) {
-                throw new IllegalArgumentException("Image URL too long");
-            }
+        if (imageUrl != null && (imageUrl.startsWith("http://") || imageUrl.startsWith("https://")) && imageUrl.length() <= 2048) {
+            this.imageUrl = imageUrl;
+        } else {
+            this.imageUrl = null; // Set to null if invalid, preventing a crash
         }
-        this.imageUrl = imageUrl;
     }
 
     public float getRating() {
@@ -168,13 +165,14 @@ public class Product implements Serializable {
         this.stockStatus = stockStatus;
     }
 
-    public java.util.List<FAQItem> getFaqList() {
-        if (faqList == null)
-            faqList = new java.util.ArrayList<>();
+    public List<FAQItem> getFaqList() {
+        if (faqList == null) {
+            faqList = new ArrayList<>();
+        }
         return faqList;
     }
 
-    public void setFaqList(java.util.List<FAQItem> faqList) {
+    public void setFaqList(List<FAQItem> faqList) {
         this.faqList = faqList;
     }
 
@@ -202,8 +200,7 @@ public class Product implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, description, price, category, imageUrl, rating, stock, supplierInfo, stockStatus,
-                faqList);
+        return Objects.hash(id, name, description, price, category, imageUrl, rating, stock, supplierInfo, stockStatus, faqList);
     }
 
     @Override

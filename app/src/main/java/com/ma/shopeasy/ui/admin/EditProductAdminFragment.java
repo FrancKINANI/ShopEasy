@@ -99,7 +99,7 @@ public class EditProductAdminFragment extends Fragment {
         // Ensure ID is alphanumeric/clean if needed, but UUID is fine usually.
         // Product model regex: "^[a-zA-Z0-9_-]+$" - UUID has dashes, so it fits.
 
-        Product product = new Product(id, name, description, price, "General", "", 0, stock, supplier, stockStatus);
+        Product product = new Product(id, name, description, price, "General", "https://via.placeholder.com/150", 0, stock, supplier, stockStatus);
 
         viewModel.updateProduct(product).observe(getViewLifecycleOwner(), resource -> {
             if (resource.status == Resource.Status.SUCCESS) {
