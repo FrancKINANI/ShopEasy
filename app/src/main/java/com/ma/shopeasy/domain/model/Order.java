@@ -75,4 +75,14 @@ public class Order {
     public void setStatus(String status) {
         this.status = status;
     }
+
+    public int getTotalItemCount() {
+        if (items == null)
+            return 0;
+        int count = 0;
+        for (CartItem item : items) {
+            count += item.getQuantity();
+        }
+        return count;
+    }
 }

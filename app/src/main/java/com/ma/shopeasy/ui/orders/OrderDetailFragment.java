@@ -96,6 +96,29 @@ public class OrderDetailFragment extends Fragment {
 
         binding.tvSubtotal.setText(String.format(Locale.getDefault(), "%.2f $", order.getTotal()));
         binding.tvTotal.setText(String.format(Locale.getDefault(), "%.2f $", order.getTotal()));
+
+        // Admin Logic
+        boolean isAdmin = getArguments() != null && getArguments().getBoolean("isAdmin", false);
+        if (isAdmin) {
+            binding.cvAdminActions.setVisibility(View.VISIBLE);
+            setupAdminListeners(order.getOrderId());
+        }
+    }
+
+    private void setupAdminListeners(String orderId) {
+        binding.btnValidate.setOnClickListener(v -> updateStatus(orderId, "Delivered"));
+        binding.btnRefuse.setOnClickListener(v -> updateStatus(orderId, "Cancelled"));
+        binding.btnShip.setOnClickListener(v -> updateStatus(orderId, "Shipping"));
+    }
+
+    private void updateStatus(String orderId, String status) {
+        viewModel.updateOrderStatus(orderId, status).observe(getViewLifecycleOwner(), resource -> {
+            if (resource.status == Resource.Status.SUCCESS) {
+                Toast.makeText(getContext(), "Statut mis à jour", Toast.LENGTH_SHORT).show();
+            } else if (resource.status == Resource.Status.ERROR) {
+                Toast.makeText(getContext(), "Erreur: " + resource.message, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void updateStatusBackground(String status) {
@@ -109,6 +132,10 @@ public class OrderDetailFragment extends Fragment {
                 break;
             case "shipping":
                 bgRes = R.drawable.shape_status_shipping;
+                break;
+            case "cancelled":
+            case "refused":
+                bgRes = R.drawable.shape_status_error;
                 break;
             default:
                 bgRes = R.drawable.shape_status_pending;

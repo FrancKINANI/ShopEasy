@@ -24,4 +24,8 @@ public class OrderDetailViewModel extends ViewModel {
     public LiveData<Resource<Order>> getOrderById(String orderId) {
         return repository.getOrderById(orderId);
     }
+
+    public LiveData<Resource<Void>> updateOrderStatus(String orderId, String status) {
+        return repository.updateOrderStatus(orderId, status);
+    }
 }

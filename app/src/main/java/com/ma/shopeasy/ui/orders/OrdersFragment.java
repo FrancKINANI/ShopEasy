@@ -40,6 +40,7 @@ public class OrdersFragment extends Fragment {
         adapter = new OrdersAdapter(orderId -> {
             Bundle args = new Bundle();
             args.putString("orderId", orderId);
+            args.putBoolean("isAdmin", isAdmin);
             int actionId = isAdmin ? R.id.action_manageOrdersFragment_to_orderDetailFragment
                     : R.id.action_ordersFragment_to_orderDetailFragment;
             Navigation.findNavController(view).navigate(actionId, args);

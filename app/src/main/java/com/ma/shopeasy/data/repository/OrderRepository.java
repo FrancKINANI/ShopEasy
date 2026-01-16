@@ -99,4 +99,16 @@ public class OrderRepository {
 
         return result;
     }
+
+    public LiveData<Resource<Void>> updateOrderStatus(String orderId, String newStatus) {
+        MutableLiveData<Resource<Void>> result = new MutableLiveData<>();
+        result.setValue(Resource.loading());
+
+        firestore.collection("orders").document(orderId)
+                .update("status", newStatus)
+                .addOnSuccessListener(aVoid -> result.setValue(Resource.success(null)))
+                .addOnFailureListener(e -> result.setValue(Resource.error(e.getMessage())));
+
+        return result;
+    }
 }
